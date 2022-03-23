@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import socket from "./socket";
-import { Container, Col, Row, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function Lobby(props) {
@@ -16,12 +15,13 @@ export default function Lobby(props) {
 
     loadUsers();
     socket.on("render-users", (playerInfo) => {
-      setState({ ...state, players: playerInfo });
+      setState({ players: playerInfo, host: playerInfo[0].nickname });
     });
 
-    socket.on("set-host", (host) => {
-      setState({ ...state, host: host });
-    }); //is there a reason that
+    // socket.on("set-host", (host) => {
+    //   setState({ ...state, host: host });
+    //   console.log(state.host);
+    // });
 
     socket.on("update-users", () => {
       loadUsers();
@@ -62,13 +62,13 @@ export default function Lobby(props) {
       >
         {state.players.map((player, i) => {
           return (
-            <Col
+            <div
               md={4}
               style={{ height: "280px", color: player.color }}
               key={i}
             >
               <h4>{player.nickname}</h4>
-            </Col>
+            </div>
           );
         })}
       </div>
