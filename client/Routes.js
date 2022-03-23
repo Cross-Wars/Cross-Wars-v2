@@ -1,12 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
-import { me } from './store';
-import JoinOrCreateRoom from './components/JoinOrCreateRoom';
-import MyPage from './components/SingleCrossword';
-import socket, { initSocket } from './components/socket';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Login, Signup } from "./components/AuthForm";
+import Home from "./components/Home";
+import { me } from "./store";
+import JoinOrCreateRoom from "./components/JoinOrCreateRoom";
+import MyPage from "./components/SingleCrossword";
+import socket, { initSocket } from "./components/socket";
+import Lobby from "./components/Lobby";
 
 /**
  * COMPONENT
@@ -38,8 +39,9 @@ class Routes extends Component {
       // </div>
       <div>
         <Switch>
-          <Route path="/" component={JoinOrCreateRoom} />
+          <Route exact path="/" component={JoinOrCreateRoom} />
           <Route exact path="/game" component={MyPage} />
+          <Route path="/lobby" component={Lobby} />
         </Switch>
       </div>
     );
