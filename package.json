@@ -2,6 +2,9 @@
   "name": "crosswars",
   "version": "2.0.0",
   "description": "Some boilerplate code to get you started - get shakin'!",
+  "engines": {
+    "node": "16.x"
+  },
   "main": "index.js",
   "scripts": {
     "build": "webpack",
@@ -21,7 +24,6 @@
   "license": "MIT",
   "dependencies": {
     "@jaredreisinger/react-crossword": "^4.3.2",
-    "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
     "compression": "^1.7.3",
     "express": "^4.16.4",
