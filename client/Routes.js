@@ -40,8 +40,10 @@ class Routes extends Component {
       <div>
         <Switch>
           <Route exact path="/" component={JoinOrCreateRoom} />
-          <Route exact path="/game" component={MyPage} />
+          <Route path="/?:roomId" component={JoinOrCreateRoom} />
+          <Route path="/game" component={MyPage} />
           <Route path="/lobby" component={Lobby} />
+          {/* <Route path="/game/:gameDate" component={} /> */}
         </Switch>
       </div>
     );
