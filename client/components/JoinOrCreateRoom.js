@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import socket from './socket';
 import { uid } from 'uid';
@@ -62,38 +63,42 @@ export default function JoinOrCreateRoom(props) {
   // };
 
   return (
-    <div>
-      <Logo />
-      <h1>🔪 CrossWars 🔪</h1>
-      <form>
-        <label htmlFor="nickname-input">Enter Your Nickname</label>
-        <input
-          name="nickname-input"
-          onChange={handleNickNameChange}
-          type="text"
-          value={state.nickname}
-        />
-        <label htmlFor="color-select">Choose a Color</label>
-        <select defaultValue={state.color} onChange={handleColorChange}>
-          <option value="blue">blue</option>
-          <option value="red">red</option>
-          <option value="green">green</option>
-          <option value="yellow">yellow</option>
-          <option value="pink">pink</option>
-          <option value="orange">orange</option>
-          <option value="purple">purple</option>
-        </select>
-      </form>
-      {props.location.search.substring(1) ? (
-        <form onSubmit={handleSubmit}>
-          <button type="submit">JOIN ROOM</button>
+    <div className="splash-container">
+      <div className="splash">
+    <Logo />
+        <h1 className="splash-head">🔪 CrossWars 🔪</h1>
+        <form>
+          <label htmlFor="nickname-input">Enter Your Nickname</label>
+          <input
+            name="nickname-input"
+            onChange={handleNickNameChange}
+            type="text"
+            value={state.nickname}
+          />
+          <label htmlFor="color-select">Choose a Color</label>
+          <select defaultValue={state.color} onChange={handleColorChange}>
+            <option value="blue">blue</option>
+            <option value="red">red</option>
+            <option value="green">green</option>
+            <option value="yellow">yellow</option>
+            <option value="pink">pink</option>
+            <option value="orange">orange</option>
+            <option value="purple">purple</option>
+          </select>
         </form>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <button type="submit">CREATE ROOM</button>
-        </form>
-      )}
-      <Footer />
+        {props.location.search.substring(1) ? (
+          <form onSubmit={handleSubmit}>
+            <button type="submit">JOIN ROOM</button>
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <button className="pure-button" type="submit">
+              CREATE ROOM
+            </button>
+          </form>
+        )}
+        <Footer />
+      </div>
     </div>
   );
 }
