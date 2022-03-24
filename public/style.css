@@ -19,3 +19,77 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+/* footer */
+
+.footer-container {
+  background-color: #6e2b6e;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 25px 50px;
+  gap: 2px;
+}
+
+.footer-left p {
+  color: #cdd27e;
+  font-size: medium;
+  margin: 0px;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.footer-right a {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  border-radius: 2px;
+  font-size: 55px;
+  color: #cdd27e;
+  text-align: center;
+  line-height: 35px;
+  margin: 0px 5px;
+  transition: all 0.25s;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.footer-right div {
+  font-size: small;
+}
+
+.author img {
+  width: 3em;
+  height: 3em;
+}
+.author {
+  display: flex;
+  margin-left: 2em;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  transition: all 0.25s;
+}
+
+.footer-right a:hover {
+  transform: scale(1.2);
+  color: #def1be;
+}
+.footer-left a:hover,
+.footer-left a:hover p {
+  transform: scale(1.08);
+  color: #def1be;
+}

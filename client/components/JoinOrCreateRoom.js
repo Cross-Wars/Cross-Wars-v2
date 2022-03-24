@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import socket from './socket';
 import { uid } from 'uid';
@@ -92,6 +93,7 @@ export default function JoinOrCreateRoom(props) {
           <button type="submit">CREATE ROOM</button>
         </form>
       )}
+      <Footer />
     </div>
   );
 }
