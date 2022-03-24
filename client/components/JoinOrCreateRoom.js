@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import socket from './socket';
 import { uid } from 'uid';
 import Logo from './Logo';
+import Footer from './Footer';
 
 export default function JoinOrCreateRoom(props) {
   // const [newKey, setNewKey] = useState("");
