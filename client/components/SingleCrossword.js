@@ -31,12 +31,11 @@ export default function MyPage() {
   //const crossword = useRef < CrosswordImperative > null
   const crossword = useRef(null);
   const selectedPuzzle = JSON.parse(window.localStorage.getItem("puzzle"));
-  const puzzleData = JSON.parse(selectedPuzzle.data)
-
+  const puzzleData = JSON.parse(selectedPuzzle.data);
 
   useEffect(() => {
     if (time < 1) {
-      console.log('GAME OVER');
+      console.log("GAME OVER");
     }
   }, [time]);
 
@@ -47,24 +46,24 @@ export default function MyPage() {
     //   store.dispatch(getGuess(payload.row, payload.col, payload.char));
     // });
 
-    if (!window.localStorage.getItem('correctClues')) {
-      window.localStorage.setItem('correctClues', '[]');
+    if (!window.localStorage.getItem("correctClues")) {
+      window.localStorage.setItem("correctClues", "[]");
     }
-    if (!window.localStorage.getItem('correctCells')) {
-      window.localStorage.setItem('correctCells', '[]');
+    if (!window.localStorage.getItem("correctCells")) {
+      window.localStorage.setItem("correctCells", "[]");
     }
 
-    socket.emit('timer-start', 10);
+    socket.emit("timer-start", 10);
 
-    socket.on('tick', (payload) => {
+    socket.on("tick", (payload) => {
       setTime(payload);
     });
 
     setInterval(() => {
-      const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
+      const corrects = JSON.parse(window.localStorage.getItem("correctClues"));
       console.log(
         corrects.length,
-        ' vs ',
+        " vs ",
         [...Object.keys(puzzleData.across)].length +
           [...Object.keys(puzzleData.down)].length
       );
@@ -73,7 +72,7 @@ export default function MyPage() {
         [...Object.keys(puzzleData.across)].length +
           [...Object.keys(puzzleData.down)].length
       ) {
-        console.log('DONE');
+        console.log("DONE");
       }
     }, 1000);
 
@@ -152,9 +151,9 @@ export default function MyPage() {
   return (
     <div>
       <h2>
-        {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}
+        {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
       </h2>
-      <div style={{ height: 200, width: 400 }}>
+      <div className="game-board">
         <Crossword
           onCorrect={onCorrect}
           onCellChange={onCellChange}
