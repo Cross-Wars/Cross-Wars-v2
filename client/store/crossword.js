@@ -1,4 +1,7 @@
+import axios from "axios"
+
 const GET_GUESS = "GET_GUESS"
+const GET_ALL_CROSSWORD = "GET_ALL_CROSSWORD"
 
 export const getGuess = (row, col, char) => {
   return {
@@ -8,18 +11,36 @@ export const getGuess = (row, col, char) => {
     char,
   }
 }
+export const getAllCrossword = (crosswords) => {
+  return {
+    type: GET_ALL_CROSSWORD,
+    crosswords,
+  }
+}
 
-// interface action {
-//   type: string
-//   row: number
-//   col: number
-//   char: string
-// }
+export const fetchAllCrossword = (crossworrds) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("/api/crosswords")
+      dispatch(getAllCrossword(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
 
-export const dataReducer = (state = "", action) => {
+let initialState = {
+  guess: "",
+  allCrossword: {},
+}
+
+export const dataReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GUESS:
-      return `${action.row} ${action.col} ${action.char}`
+      return { ...state, guess: `${action.row} ${action.col} ${action.char}` }
+
+    case GET_ALL_CROSSWORD:
+      return { ...state, allCrossword: action.crosswords }
     default:
       return state
   }
