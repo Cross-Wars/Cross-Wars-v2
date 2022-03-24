@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react"
-import socket from "./socket"
-import { uid } from "uid"
-import Footer from "./Footer"
+
+import React, { useState, useEffect } from 'react';
+import socket from './socket';
+import { uid } from 'uid';
+import Logo from './Logo';
 
 export default function JoinOrCreateRoom(props) {
   // const [newKey, setNewKey] = useState("");
@@ -10,50 +11,50 @@ export default function JoinOrCreateRoom(props) {
   // const [host, setHost] = useState(false);
   // const [username, setUsername] = useState("user-name");
   const [state, setState] = useState({
-    color: "blue",
-    nickname: "WordCrosser",
+    color: 'blue',
+    nickname: 'WordCrosser',
     host: false,
-    roomId: "",
+    roomId: '',
     socket: null,
-  })
+  });
 
   useEffect(() => {
-    console.log(props, socket)
-    setState({ ...state, socket: socket })
-    const room = props.location.search.substring(1)
+    console.log(props, socket);
+    setState({ ...state, socket: socket });
+    const room = props.location.search.substring(1);
     if (!room) {
-      const newRoomId = uid()
-      setState({ ...state, roomId: newRoomId, host: true })
+      const newRoomId = uid();
+      setState({ ...state, roomId: newRoomId, host: true });
     } else {
-      setState({ ...state, roomId: room })
+      setState({ ...state, roomId: room });
     }
-    socket.on("room-full", () => {
-      props.history.push("/error")
-    })
-  }, [])
+    socket.on('room-full', () => {
+      props.history.push('/error');
+    });
+  }, []);
 
   const handleNickNameChange = (evt) => {
-    setState({ ...state, nickname: evt.target.value })
-  }
+    setState({ ...state, nickname: evt.target.value });
+  };
 
   const handleColorChange = (evt) => {
-    setState({ ...state, color: evt.target.value })
-  }
+    setState({ ...state, color: evt.target.value });
+  };
 
   // const handleJoinKeyChange = (evt) => {
   //   setJoinKey(evt.target.value);
   // };
 
   const handleSubmit = (evt) => {
-    evt.preventDefault()
-    socket.emit("set-info", state)
-    socket.emit("join-room", state.roomId)
-    window.localStorage.setItem("roomId", state.roomId)
-    window.localStorage.setItem("host", state.host)
-    props.history.push(`/lobby/${state.roomId}`)
+    evt.preventDefault();
+    socket.emit('set-info', state);
+    socket.emit('join-room', state.roomId);
+    window.localStorage.setItem('roomId', state.roomId);
+    window.localStorage.setItem('host', state.host);
+    props.history.push(`/lobby/${state.roomId}`);
     // props.history.push("/game");
-    console.log(state)
-  }
+    console.log(state);
+  };
 
   // const handleJoinSubmit = (evt) => {
   //   evt.preventDefault();
@@ -62,6 +63,7 @@ export default function JoinOrCreateRoom(props) {
 
   return (
     <div>
+      <Logo />
       <h1>🔪 CrossWars 🔪</h1>
       <form>
         <label htmlFor="nickname-input">Enter Your Nickname</label>
@@ -93,5 +95,5 @@ export default function JoinOrCreateRoom(props) {
       )}
       <Footer />
     </div>
-  )
+  );
 }
