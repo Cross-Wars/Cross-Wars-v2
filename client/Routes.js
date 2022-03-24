@@ -1,25 +1,26 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { withRouter, Route, Switch, Redirect } from "react-router-dom";
-import { Login, Signup } from "./components/AuthForm";
-import Home from "./components/Home";
-import { me } from "./store";
-import JoinOrCreateRoom from "./components/JoinOrCreateRoom";
-import MyPage from "./components/SingleCrossword";
-import socket, { initSocket } from "./components/socket";
-import Lobby from "./components/Lobby";
+import React, { Component, Fragment } from "react"
+import { connect } from "react-redux"
+import { withRouter, Route, Switch, Redirect } from "react-router-dom"
+import { Login, Signup } from "./components/AuthForm"
+import Home from "./components/Home"
+import { me } from "./store"
+import JoinOrCreateRoom from "./components/JoinOrCreateRoom"
+import MyPage from "./components/SingleCrossword"
+import socket, { initSocket } from "./components/socket"
+import Lobby from "./components/Lobby"
+import Instructions from "./components/Instruction"
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData();
-    initSocket(socket);
+    this.props.loadInitialData()
+    initSocket(socket)
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn } = this.props
 
     return (
       // <div>
@@ -43,10 +44,10 @@ class Routes extends Component {
           <Route path="/?:roomId" component={JoinOrCreateRoom} />
           <Route path="/game" component={MyPage} />
           <Route path="/lobby" component={Lobby} />
-          {/* <Route path="/game/:gameDate" component={} /> */}
+          <Route path="/instructions" component={Instructions} />
         </Switch>
       </div>
-    );
+    )
   }
 }
 
@@ -58,17 +59,17 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
-  };
-};
+  }
+}
 
 const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
-      dispatch(me());
+      dispatch(me())
     },
-  };
-};
+  }
+}
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Routes));
+export default withRouter(connect(mapState, mapDispatch)(Routes))
