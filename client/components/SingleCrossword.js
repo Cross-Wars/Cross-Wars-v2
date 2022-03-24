@@ -35,7 +35,15 @@ export default function MyPage() {
     //   store.dispatch(getGuess(payload.row, payload.col, payload.char));
     // });
 
+    window.localStorage.setItem('correctClues', '[]');
+
     socket.on('newWord', (payload) => {
+      const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
+      const newCorrect = `${payload.number} ${payload.direction}`;
+      if (!corrects.includes(newCorrect)) {
+        corrects.push(newCorrect);
+        window.localStorage.setItem('correctClues', JSON.stringify(corrects));
+      }
       if (payload.direction === 'across') {
         const start = [
           crossBoard1.across[payload.number].row,
@@ -74,8 +82,14 @@ export default function MyPage() {
   };
 
   const onCorrect = (direction, number, answer) => {
-    console.log('CORRECT');
-    socket.emit('correctWord', { direction, number, answer });
+    const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
+    const newCorrect = `${number} ${direction}`;
+    if (!corrects.includes(newCorrect)) {
+      console.log('CORRECT');
+      socket.emit('correctWord', { direction, number, answer });
+      corrects.push(newCorrect);
+    }
+    window.localStorage.setItem('correctClues', JSON.stringify(corrects));
     // for (let i = 0; i < answer.length; i++) {
     //   crossword.current?.setGuess(start[0], start[1], answer[i])
     //   start[1]++;
