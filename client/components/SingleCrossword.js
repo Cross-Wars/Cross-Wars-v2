@@ -36,10 +36,12 @@ export default function MyPage() {
     // });
 
     window.localStorage.setItem('correctClues', '[]');
+    window.localStorage.setItem('correctCells', '[]');
 
     socket.on('newWord', (payload) => {
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
       const newCorrect = `${payload.number} ${payload.direction}`;
+      const cells = JSON.parse(window.localStorage.getItem('correctCells'));
       if (!corrects.includes(newCorrect)) {
         corrects.push(newCorrect);
         window.localStorage.setItem('correctClues', JSON.stringify(corrects));
@@ -51,6 +53,7 @@ export default function MyPage() {
         ];
         for (let i = 0; i < payload.answer.length; i++) {
           crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
+          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
           start[1]++;
         }
       } else {
@@ -60,9 +63,11 @@ export default function MyPage() {
         ];
         for (let i = 0; i < payload.answer.length; i++) {
           crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
+          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
           start[0]++;
         }
       }
+      window.localStorage.setItem('correctCells', JSON.stringify(cells));
     });
   }, []);
 
@@ -77,8 +82,28 @@ export default function MyPage() {
   }, [guess]);
 
   const onCellChange = (row, col, char) => {
-    socket.emit('guess', { row, col, char });
     console.log(row, col, char);
+    const cells = JSON.parse(window.localStorage.getItem('correctCells'));
+    if (
+      cells.some(
+        (cell) => cell.split(', ').slice(0, 2).join(', ') === `${row}, ${col}`
+      )
+    ) {
+      console.log('ALREADY CORRECT');
+      const correctLetter = cells
+        .find(
+          (cell) => cell.split(', ').slice(0, 2).join(', ') === `${row}, ${col}`
+        )
+        .split(', ')
+        .slice(2)
+        .join('');
+      console.log(correctLetter);
+      if (char !== correctLetter) {
+        setTimeout(() => {
+          crossword.current?.setGuess(row, col, correctLetter);
+        }, 10);
+      }
+    }
   };
 
   const onCorrect = (direction, number, answer) => {
