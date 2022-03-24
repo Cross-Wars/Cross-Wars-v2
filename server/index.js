@@ -32,6 +32,18 @@ const init = async () => {
         // console.log(socket);
       });
 
+      // socket.on('timer-start', (payload) => {
+      //   setInterval(() => {
+      //     payload--;
+      //     io.emit('tick', payload) //REFACTOR WITH ROOM STUFF
+      //   }, 1000)
+      // })
+
+      socket.on('correctWord', (payload) => {
+        console.log('SOMEONE IS RIGHT');
+        io.emit('newWord', payload); //REFACTOR WITH ROOM STUFF
+      });
+
       socket.on("join-room", (roomId) => {
         const users = socket.adapter.rooms.get(roomId); // get list of sockets in room
         const numUsers = users ? users.size : 0; // get number of users in room
@@ -72,6 +84,18 @@ const init = async () => {
           });
         }
         socket.emit("render-users", players);
+      });
+
+      socket.on("start-session", (roomId, puzzle) => {
+        console.log("starting session:", roomId, puzzle);
+        socket.to(roomId).emit("begin-session", puzzle);
+      });
+
+      socket.on("end-session", (roomId) => {
+        socket.to(roomId).emit("ending-session");
+
+        //make users 'leave' room
+        //clear any info from that session, including players, content, room, etc.
       });
 
       socket.on("guess", (payload) => {
