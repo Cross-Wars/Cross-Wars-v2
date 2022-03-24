@@ -32,16 +32,17 @@ const init = async () => {
         // console.log(socket);
       });
 
-      // socket.on('timer-start', (payload) => {
-      //   setInterval(() => {
-      //     payload--;
-      //     io.emit('tick', payload) //REFACTOR WITH ROOM STUFF
-      //   }, 1000)
-      // })
+      socket.on('timer-start', (payload) => {
+        console.log('TIMER START', payload)
+        setInterval(() => {
+          payload.time--;
+          io.to(payload.roomId).emit('tick', payload.time) //REFACTOR WITH ROOM STUFF
+        }, 1000)
+      })
 
       socket.on('correctWord', (payload) => {
         console.log('SOMEONE IS RIGHT');
-        io.emit('newWord', payload); //REFACTOR WITH ROOM STUFF
+        io.to(payload.roomId).emit('newWord', payload); //REFACTOR WITH ROOM STUFF
       });
 
       socket.on("join-room", (roomId) => {
