@@ -25,7 +25,6 @@ import socket from './socket';
 // })
 
 export default function MyPage() {
-  const guess = useSelector((state) => state.dataReducer);
 
   //const crossword = useRef < CrosswordImperative > null
   const crossword = useRef(null);
@@ -70,16 +69,6 @@ export default function MyPage() {
       window.localStorage.setItem('correctCells', JSON.stringify(cells));
     });
   }, []);
-
-  useEffect(() => {
-    if (guess === '') {
-      return;
-    }
-    let arr = guess.split(' ');
-
-    const [row, col, char] = arr;
-    crossword.current?.setGuess(+row, +col, char);
-  }, [guess]);
 
   const onCellChange = (row, col, char) => {
     console.log(row, col, char);
