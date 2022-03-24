@@ -1,15 +1,15 @@
-import React, { useRef, useCallback, useState, useEffect } from 'react';
-import { crossBoard1 } from './crossWord';
-import { getGuess } from '../store/crossword';
-import store from '../store';
+import React, { useRef, useCallback, useState, useEffect } from "react"
+import { crossBoard1 } from "./crossWord"
+import { getGuess, fetchAllCrossword } from "../store/crossword"
+import store from "../store"
 
 import Crossword, {
   CrosswordImperative,
   CrosswordProvider,
-} from '@jaredreisinger/react-crossword';
-import io from 'socket.io-client';
-import { useSelector, useDispatch } from 'react-redux';
-import socket from './socket';
+} from "@jaredreisinger/react-crossword"
+import io from "socket.io-client"
+import { useSelector, useDispatch } from "react-redux"
+import socket from "./socket"
 //import { RootState } from "../store"
 
 // console.log(crossBoard1)
@@ -26,8 +26,11 @@ import socket from './socket';
 
 export default function MyPage() {
 
+  const dispatch = useDispatch()
+  const crosswords = useSelector((state) => state.dataReducer.allCrossword)
+
   //const crossword = useRef < CrosswordImperative > null
-  const crossword = useRef(null);
+  const crossword = useRef(null)
 
   useEffect(() => {
     // socket.on('crosswar', (payload) => {
@@ -121,5 +124,5 @@ export default function MyPage() {
         // useStorage={false}
       />
     </div>
-  );
+  )
 }
