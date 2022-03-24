@@ -25,17 +25,51 @@ import socket from './socket';
 // })
 
 export default function MyPage() {
+  const [time, setTime] = useState(600);
 
   //const crossword = useRef < CrosswordImperative > null
   const crossword = useRef(null);
+
+  useEffect(() => {
+    if (time < 1) {
+      console.log('GAME OVER');
+    }
+  }, [time]);
 
   useEffect(() => {
     // socket.on('crosswar', (payload) => {
     //   store.dispatch(getGuess(payload.row, payload.col, payload.char));
     // });
 
-    window.localStorage.setItem('correctClues', '[]');
-    window.localStorage.setItem('correctCells', '[]');
+    if (!window.localStorage.getItem('correctClues')) {
+      window.localStorage.setItem('correctClues', '[]');
+    }
+    if (!window.localStorage.getItem('correctCells')) {
+      window.localStorage.setItem('correctCells', '[]');
+    }
+
+    socket.emit('timer-start', 10);
+
+    socket.on('tick', (payload) => {
+      setTime(payload);
+    });
+
+    setInterval(() => {
+      const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
+      console.log(
+        corrects.length,
+        ' vs ',
+        [...Object.keys(crossBoard1.across)].length +
+          [...Object.keys(crossBoard1.down)].length
+      );
+      if (
+        corrects.length >=
+        [...Object.keys(crossBoard1.across)].length +
+          [...Object.keys(crossBoard1.down)].length
+      ) {
+        console.log('DONE');
+      }
+    }, 1000);
 
     socket.on('newWord', (payload) => {
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
@@ -111,15 +145,20 @@ export default function MyPage() {
   };
 
   return (
-    <div style={{ height: 200, width: 400 }}>
-      <Crossword
-        onCorrect={onCorrect}
-        onCellChange={onCellChange}
-        ref={crossword}
-        data={crossBoard1}
+    <div>
+      <h2>
+        {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}
+      </h2>
+      <div style={{ height: 200, width: 400 }}>
+        <Crossword
+          onCorrect={onCorrect}
+          onCellChange={onCellChange}
+          ref={crossword}
+          data={crossBoard1}
 
-        // useStorage={false}
-      />
+          // useStorage={false}
+        />
+      </div>
     </div>
   );
 }
