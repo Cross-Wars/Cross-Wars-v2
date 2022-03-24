@@ -26,7 +26,7 @@ const Footer = () => {
           <p>Dipti Yadav</p>
         </a>
 
-        <a className="author" href="https://www.linkedin.com">
+        <a className="author" href="https://www.linkedin.com/in/abbasio/">
           <img
             src="https://www.shareicon.net/data/512x512/2016/06/26/786560_people_512x512.png"
             width="90px"
