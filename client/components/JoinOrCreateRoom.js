@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
-import socket from "./socket";
-import { uid } from "uid";
+
+import React, { useState, useEffect } from 'react';
+import socket from './socket';
+import { uid } from 'uid';
+import Logo from './Logo';
+import Footer from './Footer';
 
 export default function JoinOrCreateRoom(props) {
   // const [newKey, setNewKey] = useState("");
@@ -9,10 +12,10 @@ export default function JoinOrCreateRoom(props) {
   // const [host, setHost] = useState(false);
   // const [username, setUsername] = useState("user-name");
   const [state, setState] = useState({
-    color: "blue",
-    nickname: "WordCrosser",
+    color: 'blue',
+    nickname: 'WordCrosser',
     host: false,
-    roomId: "",
+    roomId: '',
     socket: null,
   });
 
@@ -26,8 +29,8 @@ export default function JoinOrCreateRoom(props) {
     } else {
       setState({ ...state, roomId: room });
     }
-    socket.on("room-full", () => {
-      props.history.push("/error");
+    socket.on('room-full', () => {
+      props.history.push('/error');
     });
   }, []);
 
@@ -45,10 +48,10 @@ export default function JoinOrCreateRoom(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    socket.emit("set-info", state);
-    socket.emit("join-room", state.roomId);
-    window.localStorage.setItem("roomId", state.roomId);
-    window.localStorage.setItem("host", state.host);
+    socket.emit('set-info', state);
+    socket.emit('join-room', state.roomId);
+    window.localStorage.setItem('roomId', state.roomId);
+    window.localStorage.setItem('host', state.host);
     props.history.push(`/lobby/${state.roomId}`);
     // props.history.push("/game");
     console.log(state);
@@ -62,6 +65,7 @@ export default function JoinOrCreateRoom(props) {
   return (
     <div className="splash-container">
       <div className="splash">
+    <Logo />
         <h1 className="splash-head">🔪 CrossWars 🔪</h1>
         <form>
           <label htmlFor="nickname-input">Enter Your Nickname</label>
@@ -93,6 +97,7 @@ export default function JoinOrCreateRoom(props) {
             </button>
           </form>
         )}
+        <Footer />
       </div>
     </div>
   );
