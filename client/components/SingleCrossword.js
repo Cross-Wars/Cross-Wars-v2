@@ -31,8 +31,30 @@ export default function MyPage() {
   const crossword = useRef(null);
 
   useEffect(() => {
-    socket.on('crosswar', (payload) => {
-      store.dispatch(getGuess(payload.row, payload.col, payload.char));
+    // socket.on('crosswar', (payload) => {
+    //   store.dispatch(getGuess(payload.row, payload.col, payload.char));
+    // });
+
+    socket.on('newWord', (payload) => {
+      if (payload.direction === 'across') {
+        const start = [
+          crossBoard1.across[payload.number].row,
+          crossBoard1.across[payload.number].col,
+        ];
+        for (let i = 0; i < payload.answer.length; i++) {
+          crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
+          start[1]++;
+        }
+      } else {
+        const start = [
+          crossBoard1.down[payload.number].row,
+          crossBoard1.down[payload.number].col,
+        ];
+        for (let i = 0; i < payload.answer.length; i++) {
+          crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
+          start[0]++;
+        }
+      }
     });
   }, []);
 
@@ -51,9 +73,19 @@ export default function MyPage() {
     console.log(row, col, char);
   };
 
+  const onCorrect = (direction, number, answer) => {
+    console.log('CORRECT');
+    socket.emit('correctWord', { direction, number, answer });
+    // for (let i = 0; i < answer.length; i++) {
+    //   crossword.current?.setGuess(start[0], start[1], answer[i])
+    //   start[1]++;
+    // }
+  };
+
   return (
     <div style={{ height: 200, width: 400 }}>
       <Crossword
+        onCorrect={onCorrect}
         onCellChange={onCellChange}
         ref={crossword}
         data={crossBoard1}
