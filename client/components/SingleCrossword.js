@@ -33,6 +33,8 @@ export default function MyPage() {
   const crossword = useRef(null)
 
   useEffect(() => {
+    dispatch(fetchAllCrossword())
+    
     // socket.on('crosswar', (payload) => {
     //   store.dispatch(getGuess(payload.row, payload.col, payload.char));
     // });
