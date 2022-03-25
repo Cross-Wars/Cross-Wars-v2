@@ -29,19 +29,13 @@ const init = async () => {
         socket.nickname = userObj.nickname; // this is setting these properties on the client side socket, not the server side
         socket.color = userObj.color;
         socket.host = userObj.host;
+        socket.score = 0;
         // console.log(socket);
       });
 
-      // socket.on('timer-start', (payload) => {
-      //   setInterval(() => {
-      //     payload--;
-      //     io.emit('tick', payload) //REFACTOR WITH ROOM STUFF
-      //   }, 1000)
-      // })
-
       socket.on('correctWord', (payload) => {
         console.log('SOMEONE IS RIGHT');
-        io.emit('newWord', payload); //REFACTOR WITH ROOM STUFF
+        io.to(payload.roomId).emit('newWord', payload);
       });
 
       socket.on("join-room", (roomId) => {
@@ -77,10 +71,12 @@ const init = async () => {
           const nickname = socket.nickname;
           const color = socket.color;
           const host = socket.host;
+          const score = socket.score;
           players.push({
             nickname,
             color,
             host,
+            score
           });
         }
         socket.emit("render-users", players);
@@ -98,9 +94,6 @@ const init = async () => {
         //clear any info from that session, including players, content, room, etc.
       });
 
-      socket.on("guess", (payload) => {
-        io.emit("crosswar", payload);
-      });
     });
   } catch (ex) {
     console.log(ex);
