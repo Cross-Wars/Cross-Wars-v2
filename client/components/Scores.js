@@ -14,13 +14,17 @@ export default function Scores() {
     socket.on('render-users', (playerInfo) => {
       setPlayers(playerInfo);
     });
+
+    socket.on('newWord', (payload) => {
+      loadUsers();
+    });
   }, []);
 
   return (
     <div>
       {players.map((player, i) => {
         return (
-          <div md={4} key={i}>
+          <div key={i}>
             <h4 style={{ height: '280px', color: player.color }}>
               {player.nickname}: {player.score}
             </h4>
