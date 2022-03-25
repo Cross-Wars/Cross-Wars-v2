@@ -3,6 +3,7 @@ import { getGuess, fetchAllCrossword } from "../store/crossword"
 import store from "../store"
 
 import Crossword, {
+  Cell,
   CrosswordImperative,
   CrosswordProvider,
 } from "@jaredreisinger/react-crossword"
@@ -11,8 +12,7 @@ import { useSelector, useDispatch } from "react-redux"
 import socket from "./socket"
 //import { RootState } from "../store"
 
-console.log(Crossword.defaultProps.theme)
-Crossword.defaultProps.onCellChange
+console.log(Cell.defaultProps)
 
 // console.log(puzzleData)
 //console.log(CrosswordProvider.defaultProps?.theme?.focusBackground)
@@ -151,8 +151,7 @@ export default function MyPage() {
   const onCorrect = (direction, number, answer) => {
     const corrects = JSON.parse(window.localStorage.getItem("correctClues"))
     const newCorrect = `${number} ${direction}`
-    cellBorder = "aqua"
-    cellBackground = "maroon"
+
     if (!corrects.includes(newCorrect)) {
       console.log("CORRECT")
       socket.emit("correctWord", { direction, number, answer })

@@ -53,7 +53,7 @@ export default function JoinOrCreateRoom(props) {
         color: evt.target.value,
         highlightBackground: "#FBDE44FF",
       })
-    } else if (evt.target.value === "#0A5E2AFF)") {
+    } else if (evt.target.value === "#0A5E2AFF") {
       setState({
         ...state,
         color: evt.target.value,
