@@ -29,6 +29,7 @@ const init = async () => {
         socket.nickname = userObj.nickname; // this is setting these properties on the client side socket, not the server side
         socket.color = userObj.color;
         socket.host = userObj.host;
+        socket.score = 0;
         // console.log(socket);
       });
 
@@ -70,10 +71,12 @@ const init = async () => {
           const nickname = socket.nickname;
           const color = socket.color;
           const host = socket.host;
+          const score = socket.score;
           players.push({
             nickname,
             color,
             host,
+            score
           });
         }
         socket.emit("render-users", players);

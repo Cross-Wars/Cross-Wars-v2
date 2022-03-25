@@ -9,6 +9,7 @@ import Crossword, {
 import { useSelector, useDispatch } from 'react-redux';
 import socket from './socket';
 import Timer from './Timer';
+import Scores from './Scores';
 
 export default function MyPage() {
   const dispatch = useDispatch();
@@ -123,6 +124,7 @@ export default function MyPage() {
           useStorage={false}
         />
       </div>
+      <Scores />
     </div>
   );
 }
