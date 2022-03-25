@@ -36,7 +36,7 @@ const init = async () => {
       socket.on('correctWord', (payload) => {
         io.to(payload.roomId).emit('newWord', payload);
         socket.score += 100;
-        console.log(socket.score)
+        console.log(socket.score);
       });
 
       socket.on('join-room', (roomId) => {
@@ -86,6 +86,10 @@ const init = async () => {
       socket.on('start-session', (roomId, puzzle) => {
         console.log('starting session:', roomId, puzzle);
         socket.to(roomId).emit('begin-session', puzzle);
+      });
+
+      socket.on('game-over', (payload) => {
+        io.to(payload.roomId).emit('show-results');
       });
 
       socket.on('end-session', (roomId) => {

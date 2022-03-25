@@ -12,7 +12,7 @@ import socket from './socket';
 import Timer from './Timer';
 import Scores from './Scores';
 
-export default function MyPage() {
+export default function MyPage(props) {
   const dispatch = useDispatch();
   const crosswords = useSelector((state) => state.dataReducer.allCrossword);
   const room = window.localStorage.getItem('roomId');
@@ -46,6 +46,10 @@ export default function MyPage() {
         socket.emit('game-over', { roomId: room });
       }
     }, 1000);
+
+    socket.on('show-results', () => {
+      props.history.push(`/results/${room}`)
+    })
 
     socket.on('newWord', (payload) => {
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));

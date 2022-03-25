@@ -9,6 +9,8 @@ import MyPage from "./components/SingleCrossword"
 import socket, { initSocket } from "./components/socket"
 import Lobby from "./components/Lobby"
 import Instructions from "./components/Instruction"
+import Scores from './components/Scores'
+import Results from './components/Results'
 
 /**
  * COMPONENT
@@ -45,6 +47,7 @@ class Routes extends Component {
           <Route path="/game" component={MyPage} />
           <Route path="/lobby" component={Lobby} />
           <Route path="/instructions" component={Instructions} />
+          <Route path="/results" component={Results} />
         </Switch>
       </div>
     )
