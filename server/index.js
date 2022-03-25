@@ -32,17 +32,9 @@ const init = async () => {
         // console.log(socket);
       });
 
-      socket.on('timer-start', (payload) => {
-        console.log('TIMER START', payload)
-        setInterval(() => {
-          payload.time--;
-          io.to(payload.roomId).emit('tick', payload.time) //REFACTOR WITH ROOM STUFF
-        }, 1000)
-      })
-
       socket.on('correctWord', (payload) => {
         console.log('SOMEONE IS RIGHT');
-        io.to(payload.roomId).emit('newWord', payload); //REFACTOR WITH ROOM STUFF
+        io.to(payload.roomId).emit('newWord', payload);
       });
 
       socket.on("join-room", (roomId) => {
@@ -99,9 +91,6 @@ const init = async () => {
         //clear any info from that session, including players, content, room, etc.
       });
 
-      socket.on("guess", (payload) => {
-        io.emit("crosswar", payload);
-      });
     });
   } catch (ex) {
     console.log(ex);
