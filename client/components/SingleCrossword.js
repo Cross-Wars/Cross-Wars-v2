@@ -17,20 +17,24 @@ export default function MyPage() {
   const room = window.localStorage.getItem('roomId');
 
   const crossword = useRef(null);
+
   const selectedPuzzle = JSON.parse(window.localStorage.getItem('puzzle'));
   const puzzleData = JSON.parse(selectedPuzzle.data);
+
 
   useEffect(() => {
     dispatch(fetchAllCrossword());
 
+
     window.localStorage.setItem('correctClues', '[]');
     window.localStorage.setItem('correctCells', '[]');
 
+
     setInterval(() => {
-      const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
+      const corrects = JSON.parse(window.localStorage.getItem("correctClues"));
       console.log(
         corrects.length,
-        ' vs ',
+        " vs ",
         [...Object.keys(puzzleData.across)].length +
           [...Object.keys(puzzleData.down)].length
       );
@@ -39,8 +43,10 @@ export default function MyPage() {
         [...Object.keys(puzzleData.across)].length +
           [...Object.keys(puzzleData.down)].length
       ) {
+
         console.log('DONE');
         socket.emit('game-over', { roomId: room });
+
       }
     }, 1000);
 
@@ -114,8 +120,10 @@ export default function MyPage() {
   };
   return (
     <div>
+
       <Timer />
       <div style={{ height: 200, width: 400 }}>
+
         <Crossword
           onCorrect={onCorrect}
           onCellChange={onCellChange}

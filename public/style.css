@@ -1,45 +1,5 @@
 body {
-  font-family: 'Raleway', sans-serif;
-}
-
-h1 {
-  color: #ffffff;
-  font-family: 'Raleway', sans-serif;
-  font-size: 62px;
-  font-weight: 800;
-  line-height: 72px;
-  margin: 0 0 24px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-h4 {
-  color: #ffffff;
-  font-family: 'Raleway', sans-serif;
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 36px;
-  margin: 0 0 24px;
-  text-align: center;
-}
-
-p {
-  color: #f8f8f8;
-  font-family: 'Raleway', sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 32px;
-  margin: 0 0 24px;
-}
-
-a {
-  color: #c8c8c8;
-  text-decoration: underline;
-}
-
-a:hover {
-  color: #1c1c1c;
-  text-decoration: underline;
+  font-family: "Raleway", sans-serif;
 }
 
 label {
@@ -172,4 +132,27 @@ form div {
 .footer-left a:hover p {
   transform: scale(1.08);
   color: #def1be;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: row;
+}
+
+.crossword {
+  background-color: goldenrod;
+  padding: 15px;
+}
+
+.clues {
+  width: 600px;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.correct {
+  color: aquamarine;
 }
