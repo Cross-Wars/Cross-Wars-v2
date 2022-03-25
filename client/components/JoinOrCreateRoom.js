@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
-import socket from "./socket"
-import { uid } from "uid"
-import Logo from "./Logo"
-import Footer from "./Footer"
-import { Button } from "@material-ui/core"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import socket from "./socket";
+import { uid } from "uid";
+import Logo from "./Logo";
+import Footer from "./Footer";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 export default function JoinOrCreateRoom(props) {
   // const [newKey, setNewKey] = useState("");
@@ -19,26 +19,26 @@ export default function JoinOrCreateRoom(props) {
     host: false,
     roomId: "",
     socket: null,
-  })
+  });
 
   useEffect(() => {
-    console.log(props, socket)
-    setState({ ...state, socket: socket })
-    const room = props.location.search.substring(1)
+    console.log(props, socket);
+    setState({ ...state, socket: socket });
+    const room = props.location.search.substring(1);
     if (!room) {
-      const newRoomId = uid()
-      setState({ ...state, roomId: newRoomId, host: true })
+      const newRoomId = uid();
+      setState({ ...state, roomId: newRoomId, host: true });
     } else {
-      setState({ ...state, roomId: room })
+      setState({ ...state, roomId: room });
     }
     socket.on("room-full", () => {
-      props.history.push("/error")
-    })
-  }, [])
+      props.history.push("/error");
+    });
+  }, []);
 
   const handleNickNameChange = (evt) => {
-    setState({ ...state, nickname: evt.target.value })
-  }
+    setState({ ...state, nickname: evt.target.value });
+  };
 
   const handleColorChange = (evt) => {
     if (evt.target.value === "#D9514EFF") {
@@ -46,77 +46,68 @@ export default function JoinOrCreateRoom(props) {
         ...state,
         color: evt.target.value,
         highlightBackground: "#A9E5BBFF",
-      })
+      });
     } else if (evt.target.value === "orange") {
       setState({
         ...state,
         color: evt.target.value,
         highlightBackground: "#FBDE44FF",
-      })
+      });
     } else if (evt.target.value === "#0A5E2AFF") {
       setState({
         ...state,
         color: evt.target.value,
         highlightBackground: "#6DAC4FFF",
-      })
+      });
     } else if (evt.target.value === "#93385FFF") {
       setState({
         ...state,
         color: evt.target.value,
         highlightBackground: "#F99FC9FF",
-      })
+      });
     } else if (evt.target.value === "#D34F73FF") {
       setState({
         ...state,
         color: evt.target.value,
         highlightBackground: "#DBBEA1FF",
-      })
+      });
     } else if (evt.target.value === "#FF4F58FF") {
       setState({
         ...state,
         color: evt.target.value,
         highlightBackground: "#669DB3FF",
-      })
+      });
     } else if (evt.target.value === "#CE4A7EFF") {
       setState({
         ...state,
         color: evt.target.value,
         highlightBackground: "#DBBEA1FF",
-      })
+      });
     }
-  }
+  };
 
   // const handleJoinKeyChange = (evt) => {
   //   setJoinKey(evt.target.value);
   // };
 
   const handleSubmit = (evt) => {
-    evt.preventDefault()
-    socket.emit("set-info", state)
-    socket.emit("join-room", state.roomId)
+    evt.preventDefault();
+    socket.emit("set-info", state);
+    socket.emit("join-room", state.roomId);
     window.localStorage.setItem(
       "color",
 
       `${state.color} ${state.highlightBackground}`
-    )
-    window.localStorage.setItem("focus", state.nickname)
-    window.localStorage.setItem("roomId", state.roomId)
-    window.localStorage.setItem("host", state.host)
-    props.history.push(`/lobby/${state.roomId}`)
-    // props.history.push("/game");
-    console.log(state)
-  }
-
-  // const handleJoinSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   // socket stuff
-  // };
+    );
+    window.localStorage.setItem("focus", state.nickname);
+    window.localStorage.setItem("roomId", state.roomId);
+    window.localStorage.setItem("host", state.host);
+    props.history.push(`/lobby/${state.roomId}`);
+  };
 
   return (
     <div className="splash-container">
       <div className="splash">
-        <Logo />
-        <h1 className="splash-head">🔪 CrossWars 🔪</h1>
         <form>
           <label htmlFor="nickname-input">Enter Your Nickname</label>
           <input
@@ -127,34 +118,35 @@ export default function JoinOrCreateRoom(props) {
           />
           <label htmlFor="color-select">Choose a Color</label>
           <select defaultValue={state.color} onChange={handleColorChange}>
-            <option value="blue">blue</option>
-            <option value="#D9514EFF">red</option>
+            <option value="blue">Blue</option>
+            <option value="#D9514EFF">Red</option>
             <option value="#0A5E2AFF">Dark Green</option>
             <option value="#D34F73FF">Mystic</option>
             <option value="#FF4F58FF">Fiery Coral</option>
-            <option value="orange">orange</option>
+            <option value="orange">Orange</option>
             <option value="#CE4A7EFF">Pink</option>
-            <option value="#93385FFF">purple</option>
+            <option value="#93385FFF">Purple</option>
           </select>
         </form>
         {props.location.search.substring(1) ? (
           <form onSubmit={handleSubmit}>
-            <button type="submit">JOIN ROOM</button>
+            <Button variant="contained" color="secondary" type="submit">
+              JOIN ROOM
+            </Button>
           </form>
         ) : (
           <form onSubmit={handleSubmit}>
-            <button className="pure-button" type="submit">
+            {/* <button className="pure-button" type="submit">
               CREATE ROOM
-            </button>
+            </button> */}
+            <Button variant="contained" color="secondary" type="submit">
+              CREATE ROOM
+            </Button>
           </form>
         )}
-        <Link to="/instructions">
-          <Button variant="contained" color="secondary">
-            HOW TO PLAY
-          </Button>
-        </Link>
+
         <Footer />
       </div>
     </div>
-  )
+  );
 }
