@@ -39,6 +39,7 @@ export default function MyPage() {
           [...Object.keys(puzzleData.down)].length
       ) {
         console.log('DONE');
+        socket.emit('game-over', { roomId: room });
       }
     }, 1000);
 
