@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import socket from "./socket";
 import { Link } from "react-router-dom";
 import { fetchAllCrossword } from "../store/crossword";
+import { Button } from "@material-ui/core";
 
 export default function Lobby(props) {
   const crosswords = useSelector((state) => state.dataReducer.allCrossword);
@@ -71,72 +72,60 @@ export default function Lobby(props) {
   return (
     <div className="splash-container">
       <div className="splash">
-        <h2>{`${state.host}'s Lobby`}</h2>
-        <div>
-          {state.players.map((player, i) => {
-            return (
-              <div md={4} key={i}>
-                <h4 style={{ height: "280px", color: player.color }}>
-                  {player.nickname}
-                </h4>
-              </div>
-            );
-          })}
-        </div>
-
-        {crosswords.map((puzzle, ind) => {
-          return (
-            <div
-              className="card"
-              key={ind}
-              style={{
-                width: "18rem",
-                height: "350px",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "5px",
-              }}
-            >
-              <div style={{ fontFamily: "Fuzzy Bubbles, cursive" }}>
-                {puzzle.difficulty}
-              </div>
-              <div style={{ textAlign: "center" }}>{puzzle.name}</div>
-              {isUserHost === "true" ? (
-                // <Link to={`/${puzzle.date}/${room}`}>
-                <Link to={`/game/${room}`}>
-                  <button
-                    type="submit"
-                    value={puzzle.date}
-                    onClick={() => {
-                      startSession(puzzle);
-                    }}
-                  >
-                    Start Puzzle
-                  </button>
-                </Link>
-              ) : (
-                <br />
-              )}
-            </div>
-          );
-        })}
-        {/* <Link to="/game">
-          <button
-            className="button-success pure-button"
-            type="button"
-            onClick={() => startSession()}
-          >
-            Start Game
-          </button>
-        </Link> */}
-        <div style={{ marginTop: "130px" }}>
-          <button
+        <div className="lobby-header">
+          <h2>{`${state.host}'s Lobby`}</h2>
+          {/* <button
             className="button-success pure-button"
             type="button"
             onClick={() => handleClick()}
           >
             Copy Invite Link
-          </button>
+          </button> */}
+
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleClick()}
+          >
+            Copy Invite Link
+          </Button>
+        </div>
+
+        <h3>PLAYERS:</h3>
+        <div className="card-container">
+          {state.players.map((player, i) => {
+            return (
+              <div className="card" key={i}>
+                <h4 style={{ color: player.color }}>{player.nickname}</h4>
+              </div>
+            );
+          })}
+        </div>
+        <h3>Choose a Puzzle!</h3>
+        <div className="card-container">
+          {crosswords.map((puzzle, ind) => {
+            return (
+              <div className="card" key={ind}>
+                <div>{puzzle.difficulty}</div>
+                <div>{puzzle.name}</div>
+                {isUserHost === "true" ? (
+                  <Link to={`/game/${room}`}>
+                    <button
+                      type="submit"
+                      value={puzzle.date}
+                      onClick={() => {
+                        startSession(puzzle);
+                      }}
+                    >
+                      Start Puzzle
+                    </button>
+                  </Link>
+                ) : (
+                  <br />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

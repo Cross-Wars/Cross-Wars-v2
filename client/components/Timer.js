@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import socket from './socket';
+import React, { useEffect, useState } from "react";
+import socket from "./socket";
 
 export default function Timer() {
-  const [time, setTime] = useState(60);
-  const room = window.localStorage.getItem('roomId');
+  const [time, setTime] = useState(600);
+  const room = window.localStorage.getItem("roomId");
   let secondsPassed = 0;
   useEffect(() => {
     setInterval(() => {
       secondsPassed++;
-      if (secondsPassed > 60) {
-        console.log('GAME OVER');
-        socket.emit('game-over', { roomId: room });
+      if (secondsPassed > 600) {
+        console.log("GAME OVER");
+        socket.emit("game-over", { roomId: room });
       }
-      setTime(60 - secondsPassed);
+      setTime(600 - secondsPassed);
     }, 1000);
   }, []);
 
   return (
     <div>
       <h2>
-        {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}
+        {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
       </h2>
     </div>
   );

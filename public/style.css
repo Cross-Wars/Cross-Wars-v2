@@ -72,6 +72,8 @@ form div {
   justify-content: space-evenly;
   padding: 25px 50px;
   gap: 2px;
+  position: fixed;
+  bottom: 0;
 }
 
 .footer-left p {
@@ -136,23 +138,83 @@ form div {
 
 .game-board {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  /* padding-top: 1.5in; */
+  /* width: 100%; */
+}
+
+.crossword {
+  padding: 15px;
+  width: 20%;
+}
+
+.clues {
+  display: flex;
   flex-direction: row;
 }
 
-/* .crossword {
-  background-color: goldenrod;
-  padding: 15px;
-} */
-
-.clues {
-  width: 600px;
+.clues > div {
+  width: 350px;
   height: 600px;
   overflow-x: hidden;
   overflow-y: auto;
-  text-align: center;
+  text-align: left;
   padding: 20px;
 }
 
 .correct {
   color: aquamarine;
+  text-decoration: line-through;
+}
+
+.nav-bar {
+  background-color: #6e2b6e;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 25px 50px;
+  gap: 2px;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 1%;
+}
+.card {
+  flex: 0 0 24.25%;
+  text-align: center;
+  background-color: lightgray;
+  padding: 10px 0;
+}
+
+.lobby-header {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px 5%;
+}
+
+.lobby-header .button {
+  height: 10px;
+  width: 20px;
+  color: white;
 }
