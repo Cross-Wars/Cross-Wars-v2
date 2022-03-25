@@ -3,8 +3,10 @@ import { getGuess, fetchAllCrossword } from '../store/crossword';
 import store from '../store';
 
 import Crossword, {
+  Cell,
   CrosswordImperative,
   CrosswordProvider,
+  
 } from '@jaredreisinger/react-crossword';
 import { useSelector, useDispatch } from 'react-redux';
 import socket from './socket';
@@ -20,10 +22,11 @@ export default function MyPage() {
 
   const selectedPuzzle = JSON.parse(window.localStorage.getItem('puzzle'));
   const puzzleData = JSON.parse(selectedPuzzle.data);
+  const playerColor = window.localStorage.getItem("color").split(" ")
 
 
   useEffect(() => {
-    dispatch(fetchAllCrossword());
+    dispatch(fetchAllCrossword())
 
 
     window.localStorage.setItem('correctClues', '[]');
@@ -37,7 +40,7 @@ export default function MyPage() {
         " vs ",
         [...Object.keys(puzzleData.across)].length +
           [...Object.keys(puzzleData.down)].length
-      );
+      )
       if (
         corrects.length >=
         [...Object.keys(puzzleData.across)].length +
@@ -48,7 +51,7 @@ export default function MyPage() {
         socket.emit('game-over', { roomId: room });
 
       }
-    }, 1000);
+    }, 1000)
 
     socket.on('newWord', (payload) => {
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
@@ -62,26 +65,34 @@ export default function MyPage() {
         const start = [
           puzzleData.across[payload.number].row,
           puzzleData.across[payload.number].col,
-        ];
+        ]
         for (let i = 0; i < payload.answer.length; i++) {
-          crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
-          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
-          start[1]++;
+          crossword.current?.setGuess(start[0], start[1], payload.answer[i])
+          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`)
+          start[1]++
         }
       } else {
         const start = [
           puzzleData.down[payload.number].row,
           puzzleData.down[payload.number].col,
-        ];
+        ]
         for (let i = 0; i < payload.answer.length; i++) {
-          crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
-          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
-          start[0]++;
+          crossword.current?.setGuess(start[0], start[1], payload.answer[i])
+          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`)
+          start[0]++
         }
       }
       window.localStorage.setItem('correctCells', JSON.stringify(cells));
     });
   }, []);
+
+  const theme = {
+    gridBackground: playerColor[0],
+    focusBackground: playerColor[1],
+    highlightBackground: playerColor[1],
+    numberColor: playerColor[0],
+    textColor: playerColor[0],
+  }
 
   const onCellChange = (row, col, char) => {
     console.log(row, col, char);
@@ -102,11 +113,11 @@ export default function MyPage() {
       console.log(correctLetter);
       if (char !== correctLetter) {
         setTimeout(() => {
-          crossword.current?.setGuess(row, col, correctLetter);
-        }, 10);
+          crossword.current?.setGuess(row, col, correctLetter)
+        }, 10)
       }
     }
-  };
+  }
 
   const onCorrect = (direction, number, answer) => {
     const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
@@ -130,9 +141,10 @@ export default function MyPage() {
           ref={crossword}
           data={puzzleData}
           useStorage={false}
+          theme={theme}
         />
       </div>
       <Scores />
     </div>
-  );
+  )
 }
