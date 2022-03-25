@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import socket from './socket';
+import Confetti from 'react-confetti';
 
-export default function Scores() {
+export default function Results() {
   const [players, setPlayers] = useState([]);
+  const [pieces, setPieces] = useState(500);
 
   function loadUsers() {
     const roomId = window.localStorage.getItem('roomId');
@@ -12,16 +14,20 @@ export default function Scores() {
   useEffect(() => {
     loadUsers();
     socket.on('render-users', (playerInfo) => {
-      setPlayers(playerInfo);
+      setPlayers(playerInfo.sort((a, b) => b.score - a.score));
     });
 
-    socket.on('newWord', (payload) => {
-      loadUsers();
-    });
+    setTimeout(() => {
+      setPieces(0);
+    }, 10000);
   }, []);
+
+  console.log(pieces);
 
   return (
     <div>
+      <Confetti numberOfPieces={pieces} />
+      <h1>THE WINNER:</h1>
       {players.map((player, i) => {
         return (
           <div key={i}>

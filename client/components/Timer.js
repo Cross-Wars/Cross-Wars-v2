@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import socket from './socket';
 
 export default function Timer() {
-  const [time, setTime] = useState(600);
+  const [time, setTime] = useState(60);
   const room = window.localStorage.getItem('roomId');
   let secondsPassed = 0;
   useEffect(() => {
     setInterval(() => {
       secondsPassed++;
-      if (secondsPassed > 600) {
+      if (secondsPassed > 60) {
         console.log('GAME OVER');
         socket.emit('game-over', { roomId: room });
       }
-      setTime(600 - secondsPassed);
+      setTime(60 - secondsPassed);
     }, 1000);
   }, []);
 

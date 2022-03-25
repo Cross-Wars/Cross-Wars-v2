@@ -139,10 +139,10 @@ form div {
   flex-direction: row;
 }
 
-.crossword {
+/* .crossword {
   background-color: goldenrod;
   padding: 15px;
-}
+} */
 
 .clues {
   width: 600px;
