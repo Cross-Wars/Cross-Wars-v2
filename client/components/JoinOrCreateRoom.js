@@ -14,6 +14,7 @@ export default function JoinOrCreateRoom(props) {
   // const [username, setUsername] = useState("user-name");
   const [state, setState] = useState({
     color: "blue",
+    highlightBackground: "#9CC3D5FF",
     nickname: "WordCrosser",
     host: false,
     roomId: "",
@@ -40,7 +41,49 @@ export default function JoinOrCreateRoom(props) {
   }
 
   const handleColorChange = (evt) => {
-    setState({ ...state, color: evt.target.value })
+    if (evt.target.value === "#D9514EFF") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#A9E5BBFF",
+      })
+    } else if (evt.target.value === "orange") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#FBDE44FF",
+      })
+    } else if (evt.target.value === "#0A5E2AFF)") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#6DAC4FFF",
+      })
+    } else if (evt.target.value === "#93385FFF") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#F99FC9FF",
+      })
+    } else if (evt.target.value === "#D34F73FF") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#DBBEA1FF",
+      })
+    } else if (evt.target.value === "#FF4F58FF") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#669DB3FF",
+      })
+    } else if (evt.target.value === "#CE4A7EFF") {
+      setState({
+        ...state,
+        color: evt.target.value,
+        highlightBackground: "#DBBEA1FF",
+      })
+    }
   }
 
   // const handleJoinKeyChange = (evt) => {
@@ -51,6 +94,12 @@ export default function JoinOrCreateRoom(props) {
     evt.preventDefault()
     socket.emit("set-info", state)
     socket.emit("join-room", state.roomId)
+    window.localStorage.setItem(
+      "color",
+
+      `${state.color} ${state.highlightBackground}`
+    )
+    window.localStorage.setItem("focus", state.nickname)
     window.localStorage.setItem("roomId", state.roomId)
     window.localStorage.setItem("host", state.host)
     props.history.push(`/lobby/${state.roomId}`)
@@ -79,12 +128,13 @@ export default function JoinOrCreateRoom(props) {
           <label htmlFor="color-select">Choose a Color</label>
           <select defaultValue={state.color} onChange={handleColorChange}>
             <option value="blue">blue</option>
-            <option value="red">red</option>
-            <option value="green">green</option>
-            <option value="yellow">yellow</option>
-            <option value="pink">pink</option>
+            <option value="#D9514EFF">red</option>
+            <option value="#0A5E2AFF">Dark Green</option>
+            <option value="#D34F73FF">Mystic</option>
+            <option value="#FF4F58FF">Fiery Coral</option>
             <option value="orange">orange</option>
-            <option value="purple">purple</option>
+            <option value="#CE4A7EFF">Pink</option>
+            <option value="#93385FFF">purple</option>
           </select>
         </form>
         {props.location.search.substring(1) ? (
