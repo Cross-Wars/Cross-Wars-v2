@@ -10,9 +10,12 @@ const cs2 = require("../public/crosswords/cs2")
 const cs3 = require("../public/crosswords/cs3")
 const cs4 = require("../public/crosswords/cs4")
 const cs5 = require("../public/crosswords/cs5")
+const cs6 = require("../public/crosswords/cs6")
+const cs7 = require("../public/crosswords/cs7")
+const cs8 = require("../public/crosswords/cs8")
 const dataFormatter = require("../public/crosswords/conversion")
 
-const data = [cs1, cs2, cs3, cs4, cs5]
+const data = [cs1, cs2, cs3, cs4, cs5, cs6, cs7, cs8]
 const crosswords = data.map((crossword) => {
   return {
     name: crossword.title,
