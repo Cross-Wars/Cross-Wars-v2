@@ -15,9 +15,26 @@ const cs7 = require('../public/crosswords/cs7');
 const cs8 = require('../public/crosswords/cs8');
 const cs9 = require('../public/crosswords/cs9');
 const cs10 = require('../public/crosswords/cs10');
+const cs11 = require('../public/crosswords/cs11');
+const cs12 = require('../public/crosswords/cs12');
+const cs13 = require('../public/crosswords/cs13');
 const dataFormatter = require('../public/crosswords/conversion');
 
-const data = [cs1, cs2, cs3, cs4, cs5, cs6, cs7, cs8, cs9, cs10];
+const data = [
+  cs1,
+  cs2,
+  cs3,
+  cs4,
+  cs5,
+  cs6,
+  cs7,
+  cs8,
+  cs9,
+  cs10,
+  cs11,
+  cs12,
+  cs13,
+];
 const crosswords = data.map((crossword) => {
   return {
     name: crossword.title,
