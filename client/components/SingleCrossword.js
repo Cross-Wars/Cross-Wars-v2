@@ -29,7 +29,7 @@ export default function MyPage(props) {
     window.localStorage.setItem("correctClues", "[]");
     window.localStorage.setItem("correctCells", "[]");
 
-    setInterval(() => {
+    const wincheck = setInterval(() => {
       const corrects = JSON.parse(window.localStorage.getItem("correctClues"));
       console.log(
         corrects.length,
@@ -82,6 +82,10 @@ export default function MyPage(props) {
       }
       window.localStorage.setItem("correctCells", JSON.stringify(cells));
     });
+
+    return function cleanup () {
+      clearInterval(wincheck);
+    }
   }, []);
 
   const theme = {
