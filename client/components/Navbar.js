@@ -1,9 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../store";
-import Logo from "./Logo";
-import { Button } from "@material-ui/core";
+import React from "react"
+import { connect } from "react-redux"
+import { Link } from "react-router-dom"
+import { logout } from "../store"
+import Logo from "./Logo"
+import { Button } from "@material-ui/core"
+import Instructions from "./Instruction"
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <nav>
@@ -12,11 +13,9 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <Logo />
       </div>
       <h1>🔪 CrossWars 🔪</h1>
-      <Link to="/instructions">
-        <Button variant="contained" color="secondary">
-          HOW TO PLAY
-        </Button>
-      </Link>
+      <Button>
+        <Instructions />
+      </Button>
     </div>
     {/* <nav>
       {isLoggedIn ? (
@@ -35,7 +34,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     </nav> */}
     <hr />
   </nav>
-);
+)
 
 /**
  * CONTAINER
@@ -43,15 +42,15 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
-  };
-};
+  }
+}
 
 const mapDispatch = (dispatch) => {
   return {
     handleClick() {
-      dispatch(logout());
+      dispatch(logout())
     },
-  };
-};
+  }
+}
 
-export default connect(mapState, mapDispatch)(Navbar);
+export default connect(mapState, mapDispatch)(Navbar)
