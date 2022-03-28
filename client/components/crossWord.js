@@ -488,4 +488,3 @@ const dataFormatter = function (data) {
   }
 }
 export let crossBoard1 = dataFormatter(data)
-//console.log(crossBoard1)

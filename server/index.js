@@ -30,13 +30,11 @@ const init = async () => {
         socket.color = userObj.color
         socket.host = userObj.host
         socket.score = 0
-        // console.log(socket);
       })
 
       socket.on("correctWord", (payload) => {
         io.to(payload.roomId).emit("newWord", payload)
         socket.score += 100
-        console.log(socket.score)
       })
 
       socket.on("join-room", (roomId) => {
@@ -46,7 +44,6 @@ const init = async () => {
           socket.join(roomId) // join if theres room
           console.log(`successfully joined room `, roomId)
           socket.to(roomId).emit("update-users")
-          console.log(numUsers)
         } else {
           io.to(socket.id).emit("room-full")
           //socket.broadcast.emit('room-full'); // redirect to error page if room is full.
@@ -63,7 +60,6 @@ const init = async () => {
           const users = Array.from(socket.adapter.rooms.get(room))
           const userHost = await io.fetchSockets(users[0])
           const hostName = userHost[0].nickname
-          console.log("user: ", users, "userHost:", userHost)
           socket.emit("set-host", hostName)
         }
       })
@@ -89,7 +85,6 @@ const init = async () => {
       })
 
       socket.on("start-session", (roomId, puzzle) => {
-        console.log("starting session:", roomId, puzzle)
         socket.to(roomId).emit("begin-session", puzzle)
       })
 

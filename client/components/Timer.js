@@ -9,7 +9,6 @@ export default function Timer() {
     const losecheck = setInterval(() => {
       secondsPassed++;
       if (secondsPassed > 600) {
-        console.log('GAME OVER');
         socket.emit('game-over', { roomId: room });
       }
       setTime(600 - secondsPassed);

@@ -15,7 +15,6 @@ export default function Scores() {
 
     socket.on('render-users', (playerInfo) => {
       setPlayers(playerInfo);
-      console.log(playerInfo);
     });
 
     socket.on('newWord', (payload) => {
@@ -23,7 +22,6 @@ export default function Scores() {
       const points = document.getElementsByClassName(
         `got-points ${payload.id}`
       );
-      console.log(points);
       anime({
         targets: points,
         keyframes: [

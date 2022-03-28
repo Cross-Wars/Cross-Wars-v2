@@ -22,7 +22,6 @@ export default function JoinOrCreateRoom(props) {
   })
 
   useEffect(() => {
-    console.log(props, socket)
     setState({ ...state, socket: socket })
     const room = props.location.search.substring(1)
     if (!room) {
