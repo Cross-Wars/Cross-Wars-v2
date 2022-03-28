@@ -93,6 +93,27 @@ const init = async () => {
         socket.to(roomId).emit("begin-session", puzzle)
       })
 
+      socket.on('leave-room', async (roomId) => {
+        socket.leave(roomId)
+        const users = await io.in(roomId).fetchSockets()
+        let players = []
+        for (const socket of users) {
+          const nickname = socket.nickname
+          const color = socket.color
+          const host = socket.host
+          const score = socket.score
+          const id = socket.id
+          players.push({
+            nickname,
+            color,
+            host,
+            score,
+            id,
+          })
+        }
+        io.to(roomId).emit('render-users', players)
+      })
+
       socket.on("game-over", (payload) => {
         io.to(payload.roomId).emit("show-results")
       })
