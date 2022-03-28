@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux"
 import socket from "./socket"
 import Timer from "./Timer"
 import Scores from "./Scores"
+import Clues from "./TrackingClues"
 
 export default function MyPage(props) {
   const dispatch = useDispatch()
@@ -21,6 +22,12 @@ export default function MyPage(props) {
 
   const selectedPuzzle = JSON.parse(window.localStorage.getItem("puzzle"))
   const puzzleData = JSON.parse(selectedPuzzle.data)
+  // console.log(Object.keys(puzzleData.across).length)
+  // let acrossLength = Object.keys(puzzleData.across).length
+  // let downLength = Object.keys(puzzleData.down).length
+  // const [across, setAcross] = useState(acrossLength)
+  // const [down, setDown] = useState(downLength)
+
   const playerColor = window.localStorage.getItem("color").split(" ")
 
   useEffect(() => {
@@ -29,7 +36,6 @@ export default function MyPage(props) {
     window.localStorage.setItem("correctClues", "[]")
     window.localStorage.setItem("correctCells", "[]")
     let crosswordSvg = document.querySelector("div.crossword svg")
-    console.log(crosswordSvg)
 
     const wincheck = setInterval(() => {
       const corrects = JSON.parse(window.localStorage.getItem("correctClues"))
@@ -164,7 +170,9 @@ export default function MyPage(props) {
 
   const onCorrect = (direction, number, answer) => {
     const corrects = JSON.parse(window.localStorage.getItem("correctClues"))
+    console.log(corrects)
     const newCorrect = `${number} ${direction}`
+
     if (!corrects.includes(newCorrect)) {
       console.log("CORRECT")
       socket.emit("correctWord", {
@@ -177,11 +185,18 @@ export default function MyPage(props) {
       })
       corrects.push(newCorrect)
     }
+
     window.localStorage.setItem("correctClues", JSON.stringify(corrects))
+    //   if (direction === "across") {
+    //     setAcross(across - 1)
+    //   } else {
+    //     setDown(down - 1)
+    //   }
   }
   return (
     <div className="game-board">
       <Timer />
+      <Clues />
       <div style={{ height: 500, width: 1400 }} className="game">
         <Crossword
           onCorrect={onCorrect}
