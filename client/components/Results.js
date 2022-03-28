@@ -12,9 +12,13 @@ export default function Results() {
   }
 
   useEffect(() => {
+    let resultsSet = false;
     loadUsers();
     socket.on('render-users', (playerInfo) => {
-      setPlayers(playerInfo.sort((a, b) => b.score - a.score));
+      if (!resultsSet) {
+        setPlayers(playerInfo.sort((a, b) => b.score - a.score));
+      }
+      resultsSet = true;
     });
 
     setTimeout(() => {

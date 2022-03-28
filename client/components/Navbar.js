@@ -1,24 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Logo from "./Logo";
-import { Button } from "@material-ui/core";
-import Instructions from "./Instruction";
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Logo from './Logo';
+import { Button } from '@material-ui/core';
+import Instructions from './Instruction';
+import socket from './socket';
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
-  <nav>
-    <div className="nav-bar">
-      <Link to="/">
-        <Button variant="contained" color="secondary">
+const Navbar = (props) => {
+  const history = useHistory();
+  const handleClick = () => {
+    const room = window.localStorage.getItem('roomId');
+    if (room) {
+      socket.emit('leave-room', room);
+    }
+    history.push('/');
+  };
+  return (
+    <nav>
+      <div className="nav-bar">
+        <Button variant="contained" color="secondary" onClick={handleClick}>
           Home
         </Button>
-      </Link>
-      <div className="logo">
-        <Logo />
+        <div className="logo">
+          <Logo />
+        </div>
+        <h1>🔪 CrossWars 🔪</h1>
+        <Instructions />
       </div>
-      <h1>🔪 CrossWars 🔪</h1>
-      <Instructions />
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 export default Navbar;
