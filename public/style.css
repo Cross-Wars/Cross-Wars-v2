@@ -273,3 +273,12 @@ form div {
 #score-board h4 {
   margin: 4px 0px 4px 0px;
 }
+
+.score {
+  display: flex;
+}
+
+.got-points {
+  margin: 0px 0px 0px 10px;
+  opacity: 0%;
+}

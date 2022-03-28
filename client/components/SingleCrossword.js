@@ -127,7 +127,13 @@ export default function MyPage(props) {
     const newCorrect = `${number} ${direction}`;
     if (!corrects.includes(newCorrect)) {
       console.log('CORRECT');
-      socket.emit('correctWord', { direction, number, answer, roomId: room });
+      socket.emit('correctWord', {
+        direction,
+        number,
+        answer,
+        roomId: room,
+        id: socket.id,
+      });
       corrects.push(newCorrect);
     }
     window.localStorage.setItem('correctClues', JSON.stringify(corrects));
