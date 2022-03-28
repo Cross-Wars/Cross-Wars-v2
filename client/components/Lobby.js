@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import socket from './socket';
-import { Link } from 'react-router-dom';
-import { fetchAllCrossword } from '../store/crossword';
-import { Button } from '@material-ui/core';
+
+import React, { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import socket from "./socket"
+import { Link } from "react-router-dom"
+import { fetchAllCrossword } from "../store/crossword"
+import { Button } from "@material-ui/core"
 
 export default function Lobby(props) {
-  const crosswords = useSelector((state) => state.dataReducer.allCrossword);
-  const dispatch = useDispatch();
-  window.localStorage.setItem('puzzle', '{}');
+  const crosswords = useSelector((state) => state.dataReducer.allCrossword)
+  const dispatch = useDispatch()
+
+  window.localStorage.setItem("puzzle", "{}")
 
   const [state, setState] = useState({
     players: [],
-    host: '',
-    selectedPuzzle: '2017-01-04',
-  });
+    host: "",
+    selectedPuzzle: "2017-01-04",
+    difficulty: "All",
+  })
+
 
   useEffect(() => {
-    dispatch(fetchAllCrossword());
+    dispatch(fetchAllCrossword())
+
 
     const room = window.localStorage.getItem('roomId'); //the roomId is passed to the lobby through localStorage
     socket.emit('get-host', room);
@@ -35,19 +40,20 @@ export default function Lobby(props) {
       const roomId = window.localStorage.getItem('roomId');
       window.localStorage.setItem('puzzle', JSON.stringify(puzzle));
       props.history.push(`/game/${roomId}`);
-      // props.history.push(`/${puzzle}/${room}`);
-    });
-  }, []);
+    })
+  }, [])
 
   function loadUsers() {
-    const roomId = window.localStorage.getItem('roomId');
-    socket.emit('load-users', roomId);
+    const roomId = window.localStorage.getItem("roomId")
+    socket.emit("load-users", roomId)
+
   }
 
   //function to change which puzzle is currently selected:
   function selectPuzzle(puzzle) {
     window.localStorage.setItem('puzzle', JSON.stringify(puzzle));
     setState({ ...state, selectedPuzzle: puzzle.date });
+
   }
 
   //handler function to push all players into a game room with the selected puzzle
@@ -56,18 +62,43 @@ export default function Lobby(props) {
     selectPuzzle(puzzle);
     socket.emit('start-session', roomId, puzzle);
     props.history.push(`/game/${roomId}`);
-    // props.history.push(`/${state.selectedPuzzle}/${roomId}`);
   }
 
   //handler function to add the URL with room id to the clipboard
   function handleClick() {
-    const roomId = window.localStorage.getItem('roomId');
-    navigator.clipboard.writeText(`${window.location.host}/?` + roomId);
+
+    const roomId = window.localStorage.getItem("roomId")
+    navigator.clipboard.writeText(`${window.location.host}/?` + roomId)
     // alert("Link copied to clipboard!");
   }
 
-  const isUserHost = window.localStorage.getItem('host');
-  const room = window.localStorage.getItem('roomId');
+  function filterDifficulty(crosswords) {
+    let filterCrosswords = [...crosswords]
+    switch (state.difficulty) {
+      case "easy":
+        filterCrosswords = filterCrosswords.filter(
+          (crossword) => crossword.difficulty === "easy"
+        )
+        break
+      case "medium":
+        filterCrosswords = filterCrosswords.filter(
+          (crossword) => crossword.difficulty === "medium"
+        )
+        break
+      case "hard":
+        filterCrosswords = filterCrosswords.filter(
+          (crossword) => crossword.difficulty === "hard"
+        )
+        break
+      default:
+        break
+    }
+    return filterCrosswords
+  }
+
+  const isUserHost = window.localStorage.getItem("host")
+  const room = window.localStorage.getItem("roomId")
+  const filterCrosswords = filterDifficulty(crosswords)
 
   return (
     <div className="splash-container">
@@ -98,12 +129,23 @@ export default function Lobby(props) {
               <div className="card" key={i}>
                 <h4 style={{ color: player.color }}>{player.nickname}</h4>
               </div>
-            );
+            )
           })}
         </div>
         <h3>Choose a Puzzle!</h3>
+        <select
+          value={state.difficulty}
+          onChange={(event) =>
+            setState({ ...state, difficulty: event.target.value })
+          }
+        >
+          <option value="all">All</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
         <div className="card-container">
-          {crosswords.map((puzzle, ind) => {
+          {filterCrosswords.map((puzzle, ind) => {
             return (
               <div className="card" key={ind}>
                 <div className="puzzle-logo">
@@ -118,7 +160,7 @@ export default function Lobby(props) {
                       type="submit"
                       value={puzzle.date}
                       onClick={() => {
-                        startSession(puzzle);
+                        startSession(puzzle)
                       }}
                     >
                       Start Puzzle
@@ -128,10 +170,10 @@ export default function Lobby(props) {
                   <br />
                 )}
               </div>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
+  )
 }
