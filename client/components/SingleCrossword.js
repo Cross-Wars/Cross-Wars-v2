@@ -37,18 +37,11 @@ export default function MyPage(props) {
 
     const wincheck = setInterval(() => {
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
-      console.log(
-        corrects.length,
-        ' vs ',
-        [...Object.keys(puzzleData.across)].length +
-          [...Object.keys(puzzleData.down)].length
-      );
       if (
         corrects.length >=
         [...Object.keys(puzzleData.across)].length +
           [...Object.keys(puzzleData.down)].length
       ) {
-        console.log('DONE');
         socket.emit('game-over', { roomId: room });
       }
     }, 1000);
@@ -142,14 +135,12 @@ export default function MyPage(props) {
   };
 
   const onCellChange = (row, col, char) => {
-    console.log(row, col, char);
     const cells = JSON.parse(window.localStorage.getItem('correctCells'));
     if (
       cells.some(
         (cell) => cell.split(', ').slice(0, 2).join(', ') === `${row}, ${col}`
       )
     ) {
-      console.log('ALREADY CORRECT');
       const correctLetter = cells
         .find(
           (cell) => cell.split(', ').slice(0, 2).join(', ') === `${row}, ${col}`
@@ -157,7 +148,6 @@ export default function MyPage(props) {
         .split(', ')
         .slice(2)
         .join('');
-      console.log(correctLetter);
       if (char !== correctLetter) {
         setTimeout(() => {
           crossword.current?.setGuess(row, col, correctLetter);
@@ -177,7 +167,6 @@ export default function MyPage(props) {
     const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
     const newCorrect = `${number} ${direction}`;
     if (!corrects.includes(newCorrect)) {
-      console.log('CORRECT');
       socket.emit('correctWord', {
         direction,
         number,

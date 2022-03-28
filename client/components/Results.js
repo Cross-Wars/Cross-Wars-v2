@@ -26,8 +26,6 @@ export default function Results() {
     }, 10000);
   }, []);
 
-  console.log(pieces);
-
   return (
     <div>
       <Confetti numberOfPieces={pieces} />
