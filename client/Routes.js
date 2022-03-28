@@ -11,6 +11,7 @@ import Lobby from "./components/Lobby"
 import Instructions from "./components/Instruction"
 import Scores from "./components/Scores"
 import Results from "./components/Results"
+import Error from "./components/Error"
 
 /**
  * COMPONENT
@@ -46,6 +47,7 @@ class Routes extends Component {
           <Route path="/?:roomId" component={JoinOrCreateRoom} />
           <Route path="/game" component={MyPage} />
           <Route path="/lobby" component={Lobby} />
+          <Route exact path="/error" component={Error} />
 
           <Route path="/results" component={Results} />
         </Switch>
