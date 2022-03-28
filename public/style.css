@@ -1,5 +1,5 @@
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 label {
@@ -217,4 +217,26 @@ form div {
   height: 10px;
   width: 20px;
   color: white;
+}
+
+.puzzle-logo {
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  border: 3px solid black;
+  transform: rotate(10deg);
+  margin: 0px auto;
+  position: relative;
+}
+
+.puzzle-logo h1 {
+  margin: 8px 0px 0px 0px;
+  padding: 0px;
+}
+.puzzle-logo p {
+  position: fixed;
+  top: 4px;
+  left: 4px;
+  color: gray;
+  margin: 0px;
 }
