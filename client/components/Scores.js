@@ -21,13 +21,14 @@ export default function Scores() {
   }, []);
 
   return (
-    <div>
+    <div id="score-board">
       {players.map((player, i) => {
         return (
           <div key={i}>
             <h4 style={{ color: player.color }}>
               {player.nickname}: {player.score}
             </h4>
+            <hr />
           </div>
         );
       })}
