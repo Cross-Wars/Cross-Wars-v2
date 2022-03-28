@@ -160,7 +160,7 @@ form div {
 }
 
 .clues > div {
-  width: 350px;
+  width: 400px;
   height: 600px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -262,4 +262,23 @@ form div {
   padding: 10px;
   border-radius: 10px;
   color: white;
+}
+
+#score-board {
+  background-color: rgb(185, 202, 219);
+  border-radius: 10px;
+  width: 500px;
+}
+
+#score-board h4 {
+  margin: 4px 0px 4px 0px;
+}
+
+.score {
+  display: flex;
+}
+
+.got-points {
+  margin: 0px 0px 0px 10px;
+  opacity: 0%;
 }
