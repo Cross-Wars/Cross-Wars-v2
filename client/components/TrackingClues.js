@@ -7,32 +7,22 @@ export default function Clues() {
 
   let acrossLength = Object.keys(puzzleData.across).length
   let downLength = Object.keys(puzzleData.down).length
+
   const [across, setAcross] = useState(acrossLength)
   const [down, setDown] = useState(downLength)
+  const [clues, setClues] = useState(acrossLength + downLength)
+  let count = 0
 
   useEffect(() => {
     socket.on("newWord", (payload) => {
-      if (payload.direction === "across") {
-        setAcross(across - 1)
-      } else {
-        setDown(down - 1)
-      }
+      count++
+      setClues(clues - count)
     })
-  }, [
-    socket.on("newWord", (payload) => {
-      if (payload.direction === "across") {
-        setAcross(across - 1)
-      } else {
-        setDown(down - 1)
-      }
-    }),
-  ])
+  }, [])
 
   return (
     <div>
-      {/* <h2>Across :{across}</h2>
-      <h2>Down :{down}</h2> */}
-      <h2> Words Remaining:{across + down}</h2>
+      <h2> Words Remaining:{clues}</h2>
     </div>
   )
 }
