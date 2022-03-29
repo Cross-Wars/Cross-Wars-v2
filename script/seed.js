@@ -3,10 +3,12 @@ const {
   db,
   models: { User, Crossword },
 } = require('../server/db');
+const data15 = require('../public/crosswords/2015/exports');
 const data16 = require('../public/crosswords/2016/exports');
 const data17 = require('../public/crosswords/2017/exports');
 const dataFormatter = require('../public/crosswords/conversion');
 
+const cs15 = Object.values(data15);
 const cs16 = Object.values(data16);
 const cs17 = Object.values(data17);
 
@@ -30,7 +32,10 @@ const makeCrossword = (array) => {
   });
 };
 
-const crosswords = makeCrossword(cs16).concat(makeCrossword(cs17));
+const crosswords = makeCrossword(cs15).concat(
+  makeCrossword(cs16),
+  makeCrossword(cs17)
+);
 
 /**
  * seed - this function clears the database, updates tables to

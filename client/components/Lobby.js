@@ -139,12 +139,12 @@ export default function Lobby(props) {
         value={state.year}
         onChange={(event) => {
           setState({ ...state, year: parseInt(event.target.value) });
-          console.log(event.target.value);
           dispatch(fetchCrosswordsByYear(event.target.value));
         }}
       >
         <option value="2017">2017</option>
         <option value="2016">2016</option>
+        <option value="2015">2015</option>
       </select>
       <div className="card-container">
         {filterCrosswords.map((puzzle, ind) => {
