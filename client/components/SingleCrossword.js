@@ -6,13 +6,12 @@ import Crossword, {
   Cell,
   CrosswordImperative,
   CrosswordProvider,
-} from "@jaredreisinger/react-crossword"
-import { useSelector, useDispatch } from "react-redux"
-import socket from "./socket"
-import Timer from "./Timer"
-import Scores from "./Scores"
-import Clues from "./TrackingClues"
-
+} from '@jaredreisinger/react-crossword';
+import { useSelector, useDispatch } from 'react-redux';
+import socket from './socket';
+import Timer from './Timer';
+import Scores from './Scores';
+import Clues from './TrackingClues';
 
 export default function MyPage(props) {
   const dispatch = useDispatch();
@@ -25,15 +24,28 @@ export default function MyPage(props) {
   const puzzleData = JSON.parse(selectedPuzzle.data);
   const playerColor = window.localStorage.getItem('color').split(' ');
 
-
   useEffect(() => {
     dispatch(fetchAllCrossword());
 
+    function sound(src) {
+      this.sound = document.createElement('audio');
+      this.sound.src = src;
+      this.sound.setAttribute('preload', 'auto');
+      this.sound.setAttribute('controls', 'none');
+      this.sound.style.display = 'none';
+      document.body.appendChild(this.sound);
+      this.play = function () {
+        this.sound.play();
+      };
+      this.stop = function () {
+        this.sound.pause();
+      };
+    }
+    const ding = new sound('/ding.mp3');
 
-    window.localStorage.setItem("correctClues", "[]")
-    window.localStorage.setItem("correctCells", "[]")
-    let crosswordSvg = document.querySelector("div.crossword svg")
-
+    window.localStorage.setItem('correctClues', '[]');
+    window.localStorage.setItem('correctCells', '[]');
+    let crosswordSvg = document.querySelector('div.crossword svg');
 
     const wincheck = setInterval(() => {
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
@@ -51,6 +63,7 @@ export default function MyPage(props) {
     });
 
     socket.on('newWord', (payload) => {
+      ding.play();
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
       const newCorrect = `${payload.number} ${payload.direction}`;
       const cells = JSON.parse(window.localStorage.getItem('correctCells'));
@@ -163,7 +176,6 @@ export default function MyPage(props) {
     });
   }
   const onCorrect = (direction, number, answer) => {
-
     const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
     const newCorrect = `${number} ${direction}`;
     if (!corrects.includes(newCorrect)) {
