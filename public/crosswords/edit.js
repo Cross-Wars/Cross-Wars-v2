@@ -1,3 +1,5 @@
+//This script drops a 'module.exports=' in front of each file
+//in whichever directory of crosswords it's ran in
 const fs = require('fs');
 const path = require('path');
 
