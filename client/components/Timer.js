@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import socket from './socket';
 
 export default function Timer() {
-  const startTime = 600;
+  const startTime = 10;
   const [time, setTime] = useState(startTime);
   const room = window.localStorage.getItem('roomId');
   let secondsPassed = 0;
@@ -34,7 +34,7 @@ export default function Timer() {
     }, 1000);
 
     return function cleanup() {
-      tick.sound.remove()
+      tick.sound.remove();
       clearInterval(losecheck);
     };
   }, []);
