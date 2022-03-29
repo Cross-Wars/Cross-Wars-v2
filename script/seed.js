@@ -3,28 +3,34 @@ const {
   db,
   models: { User, Crossword },
 } = require('../server/db');
-const importedCrosswords = require('../public/crosswords/2016/exports');
+const data16 = require('../public/crosswords/2016/exports');
+const data17 = require('../public/crosswords/2017/exports');
 const dataFormatter = require('../public/crosswords/conversion');
 
-const data = Object.values(importedCrosswords);
+const cs16 = Object.values(data16);
+const cs17 = Object.values(data17);
 
-const crosswords = data.map((crossword) => {
-  if (crossword.gridnums.length === 225) {
-    return {
-      name: crossword.title,
-      date: new Date(crossword.date),
-      difficulty: `${
-        crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
-          ? 'easy'
-          : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
-          ? 'medium'
-          : 'hard'
-      }`,
-      author: crossword.author,
-      data: JSON.stringify(dataFormatter(crossword)),
-    };
-  }
-});
+const makeCrossword = (array) => {
+  return array.map((crossword) => {
+    if (crossword.gridnums.length === 225) {
+      return {
+        name: crossword.title,
+        date: new Date(crossword.date),
+        difficulty: `${
+          crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
+            ? 'easy'
+            : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
+            ? 'medium'
+            : 'hard'
+        }`,
+        author: crossword.author,
+        data: JSON.stringify(dataFormatter(crossword)),
+      };
+    }
+  });
+};
+
+const crosswords = makeCrossword(cs16).concat(makeCrossword(cs17));
 
 /**
  * seed - this function clears the database, updates tables to
@@ -41,7 +47,9 @@ async function seed() {
   ]);
   await Promise.all(
     crosswords.map((crossword) => {
-      return Crossword.create(crossword);
+      if (crossword) {
+        return Crossword.create(crossword);
+      }
     })
   );
 
