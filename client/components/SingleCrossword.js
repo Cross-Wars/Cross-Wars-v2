@@ -76,23 +76,33 @@ export default function MyPage(props) {
         puzzleData[payload.direction][payload.number].row,
         puzzleData[payload.direction][payload.number].col,
       ];
-      let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
       let x1 = start[1] * 6.666 + 3.325;
       let y1 = start[0] * 6.666 + 3.325;
-      line.setAttribute('x1', x1);
-      line.setAttribute('y1', y1);
+      const x2 =
+        payload.direction === 'across'
+          ? x1 + 6.666 * (payload.answer.length - 1)
+          : x1;
+      const y2 =
+        payload.direction === 'down'
+          ? y1 + 6.666 * (payload.answer.length - 1)
+          : y1;
+      line.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+      // line.setAttribute('x1', x1);
+      // line.setAttribute('y1', y1);
       line.setAttribute('opacity', '0.5');
       line.setAttribute('stroke', payload.color);
+      line.setAttribute('stroke-width', '1');
 
       for (let i = 0; i < payload.answer.length; i++) {
         crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
         cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
         if (i === payload.answer.length - 1) {
-          let x2 = start[1] * 6.666 + 3.325;
-          let y2 = start[0] * 6.666 + 3.325;
-          line.setAttribute('x2', x2);
-          line.setAttribute('y2', y2);
+          // let x2 = start[1] * 6.666 + 3.325;
+          // let y2 = start[0] * 6.666 + 3.325;
+          // line.setAttribute('x2', x2);
+          // line.setAttribute('y2', y2);
           crosswordSvg.appendChild(line);
         }
         if (payload.direction === 'across') {
