@@ -1,6 +1,7 @@
 import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { getGuess, fetchAllCrossword } from '../store/crossword';
 import store from '../store';
+import anime from 'animejs/lib/anime.es.js';
 
 import Crossword, {
   Cell,
@@ -94,6 +95,12 @@ export default function MyPage(props) {
       line.setAttribute('opacity', '0.5');
       line.setAttribute('stroke', payload.color);
       line.setAttribute('stroke-width', '1');
+      anime({
+        targets: line,
+        strokeDashoffset: [anime.setDashoffset, 0],
+        easing: 'linear',
+        duration: 500,
+      });
 
       for (let i = 0; i < payload.answer.length; i++) {
         crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
