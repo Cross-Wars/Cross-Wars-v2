@@ -210,6 +210,13 @@ form div {
   padding-left: 7%;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
 #create-form {
   background-color: #6e2b6e;
   width: 40%;
@@ -239,4 +246,10 @@ form div {
 .got-points {
   margin: 0px 0px 0px 10px;
   opacity: 0%;
+}
+
+.results-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
