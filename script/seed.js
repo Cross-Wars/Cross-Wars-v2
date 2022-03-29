@@ -1,46 +1,13 @@
 'use strict';
-
 const {
   db,
   models: { User, Crossword },
 } = require('../server/db');
-
-const cs1 = require('../public/crosswords/cs1');
-const cs2 = require('../public/crosswords/cs2');
-const cs3 = require('../public/crosswords/cs3');
-const cs4 = require('../public/crosswords/cs4');
-const cs5 = require('../public/crosswords/cs5');
-const cs6 = require('../public/crosswords/cs6');
-const cs7 = require('../public/crosswords/cs7');
-const cs8 = require('../public/crosswords/cs8');
-const cs9 = require('../public/crosswords/cs9');
-const cs10 = require('../public/crosswords/cs10');
-const cs11 = require('../public/crosswords/cs11');
-const cs12 = require('../public/crosswords/cs12');
-const cs13 = require('../public/crosswords/cs13');
-const cs14 = require('../public/crosswords/cs14');
-const cs15 = require('../public/crosswords/cs15');
-const cs16 = require('../public/crosswords/cs16');
+const importedCrosswords = require('../public/crosswords/2016/exports');
 const dataFormatter = require('../public/crosswords/conversion');
 
-const data = [
-  cs1,
-  cs2,
-  cs3,
-  cs4,
-  cs5,
-  cs6,
-  cs7,
-  cs8,
-  cs9,
-  cs10,
-  cs11,
-  cs12,
-  cs13,
-  cs14,
-  cs15,
-  cs16,
-];
+const data = Object.values(importedCrosswords);
+
 const crosswords = data.map((crossword) => {
   return {
     name: crossword.title,
@@ -72,7 +39,7 @@ async function seed() {
   ]);
   await Promise.all(
     crosswords.map((crossword) => {
-      return Crossword.create(crossword);
+      if (crossword.dow !== 'Sunday') return Crossword.create(crossword);
     })
   );
 
