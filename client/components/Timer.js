@@ -34,6 +34,7 @@ export default function Timer() {
     }, 1000);
 
     return function cleanup() {
+      tick.sound.remove()
       clearInterval(losecheck);
     };
   }, []);

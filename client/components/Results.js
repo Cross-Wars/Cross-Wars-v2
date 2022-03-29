@@ -40,6 +40,10 @@ export default function Results() {
     setTimeout(() => {
       setPieces(0);
     }, 10000);
+
+    return function cleanup() {
+      fanfare.sound.remove();
+    };
   }, []);
 
   return (

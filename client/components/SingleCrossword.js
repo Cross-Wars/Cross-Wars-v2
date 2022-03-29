@@ -63,6 +63,7 @@ export default function MyPage(props) {
     });
 
     socket.on('newWord', (payload) => {
+      ding.sound.currentTime = 0;
       ding.play();
       const corrects = JSON.parse(window.localStorage.getItem('correctClues'));
       const newCorrect = `${payload.number} ${payload.direction}`;
@@ -134,6 +135,7 @@ export default function MyPage(props) {
     });
 
     return function cleanup() {
+      ding.sound.remove();
       clearInterval(wincheck);
     };
   }, []);
