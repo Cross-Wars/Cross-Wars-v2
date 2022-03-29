@@ -3,28 +3,35 @@ const {
   db,
   models: { User, Crossword },
 } = require('../server/db');
-const importedCrosswords = require('../public/crosswords/2016/exports');
+const data16 = require('../public/crosswords/2016/exports');
+const data17 = require('../public/crosswords/2017/exports');
 const dataFormatter = require('../public/crosswords/conversion');
 
-const data = Object.values(importedCrosswords);
+const cs16 = Object.values(data16);
+const cs17 = Object.values(data17);
 
-const crosswords = data.map((crossword) => {
-  if (crossword.gridnums.length === 225) {
-    return {
-      name: crossword.title,
-      date: new Date(crossword.date),
-      difficulty: `${
-        crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
-          ? 'easy'
-          : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
-          ? 'medium'
-          : 'hard'
-      }`,
-      author: crossword.author,
-      data: JSON.stringify(dataFormatter(crossword)),
-    };
-  }
-});
+const makeCrossword = (array) => {
+  return array.map((crossword) => {
+    if (crossword.gridnums.length === 225) {
+      return {
+        name: crossword.title,
+        date: new Date(crossword.date),
+        difficulty: `${
+          crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
+            ? 'easy'
+            : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
+            ? 'medium'
+            : 'hard'
+        }`,
+        author: crossword.author,
+        data: JSON.stringify(dataFormatter(crossword)),
+      };
+    }
+  });
+};
+
+const crosswords2016 = makeCrossword(cs16);
+const crosswords2017 = makeCrossword(cs17);
 
 /**
  * seed - this function clears the database, updates tables to
@@ -40,7 +47,12 @@ async function seed() {
     User.create({ username: 'murphy', password: '123' }),
   ]);
   await Promise.all(
-    crosswords.map((crossword) => {
+    crosswords2016.map((crossword) => {
+      return Crossword.create(crossword);
+    })
+  );
+  await Promise.all(
+    crosswords2017.map((crossword) => {
       return Crossword.create(crossword);
     })
   );
