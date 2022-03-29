@@ -9,19 +9,21 @@ const dataFormatter = require('../public/crosswords/conversion');
 const data = Object.values(importedCrosswords);
 
 const crosswords = data.map((crossword) => {
-  return {
-    name: crossword.title,
-    date: new Date(crossword.date),
-    difficulty: `${
-      crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
-        ? 'easy'
-        : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
-        ? 'medium'
-        : 'hard'
-    }`,
-    author: crossword.author,
-    data: JSON.stringify(dataFormatter(crossword)),
-  };
+  if (crossword.gridnums.length === 225) {
+    return {
+      name: crossword.title,
+      date: new Date(crossword.date),
+      difficulty: `${
+        crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
+          ? 'easy'
+          : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
+          ? 'medium'
+          : 'hard'
+      }`,
+      author: crossword.author,
+      data: JSON.stringify(dataFormatter(crossword)),
+    };
+  }
 });
 
 /**
@@ -39,7 +41,7 @@ async function seed() {
   ]);
   await Promise.all(
     crosswords.map((crossword) => {
-      if (crossword.dow !== 'Sunday') return Crossword.create(crossword);
+      return Crossword.create(crossword);
     })
   );
 
