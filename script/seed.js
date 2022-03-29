@@ -30,8 +30,7 @@ const makeCrossword = (array) => {
   });
 };
 
-const crosswords2016 = makeCrossword(cs16);
-const crosswords2017 = makeCrossword(cs17);
+const crosswords = makeCrossword(cs16).concat(makeCrossword(cs17));
 
 /**
  * seed - this function clears the database, updates tables to
@@ -47,13 +46,10 @@ async function seed() {
     User.create({ username: 'murphy', password: '123' }),
   ]);
   await Promise.all(
-    crosswords2016.map((crossword) => {
-      return Crossword.create(crossword);
-    })
-  );
-  await Promise.all(
-    crosswords2017.map((crossword) => {
-      return Crossword.create(crossword);
+    crosswords.map((crossword) => {
+      if (crossword) {
+        return Crossword.create(crossword);
+      }
     })
   );
 
