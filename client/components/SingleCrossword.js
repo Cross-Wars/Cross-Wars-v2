@@ -1,6 +1,7 @@
 import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { getGuess, fetchAllCrossword } from '../store/crossword';
 import store from '../store';
+import anime from 'animejs/lib/anime.es.js';
 
 import Crossword, {
   Cell,
@@ -72,62 +73,48 @@ export default function MyPage(props) {
         corrects.push(newCorrect);
         window.localStorage.setItem('correctClues', JSON.stringify(corrects));
       }
-      if (payload.direction === 'across') {
-        const start = [
-          puzzleData.across[payload.number].row,
-          puzzleData.across[payload.number].col,
-        ];
-        let line = document.createElementNS(
-          'http://www.w3.org/2000/svg',
-          'line'
-        );
+      const start = [
+        puzzleData[payload.direction][payload.number].row,
+        puzzleData[payload.direction][payload.number].col,
+      ];
+      let line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-        let x1 = start[1] * 6.666 + 3.325;
-        let y1 = start[0] * 6.666 + 3.325;
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('opacity', '0.5');
-        line.setAttribute('stroke', payload.color);
+      let x1 = start[1] * 6.666 + 3.325;
+      let y1 = start[0] * 6.666 + 3.325;
+      const x2 =
+        payload.direction === 'across'
+          ? x1 + 6.666 * (payload.answer.length - 1)
+          : x1;
+      const y2 =
+        payload.direction === 'down'
+          ? y1 + 6.666 * (payload.answer.length - 1)
+          : y1;
+      line.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+      // line.setAttribute('x1', x1);
+      // line.setAttribute('y1', y1);
+      line.setAttribute('opacity', '0.5');
+      line.setAttribute('stroke', payload.color);
+      line.setAttribute('stroke-width', '1');
+      anime({
+        targets: line,
+        strokeDashoffset: [anime.setDashoffset, 0],
+        easing: 'linear',
+        duration: 500,
+      });
 
-        for (let i = 0; i < payload.answer.length; i++) {
-          crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
-          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
-          if (i === payload.answer.length - 1) {
-            let x2 = start[1] * 6.666 + 3.325;
-            let y2 = start[0] * 6.666 + 3.325;
-            line.setAttribute('x2', x2);
-            line.setAttribute('y2', y2);
-            crosswordSvg.appendChild(line);
-          }
-          start[1]++;
+      for (let i = 0; i < payload.answer.length; i++) {
+        crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
+        cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
+        if (i === payload.answer.length - 1) {
+          // let x2 = start[1] * 6.666 + 3.325;
+          // let y2 = start[0] * 6.666 + 3.325;
+          // line.setAttribute('x2', x2);
+          // line.setAttribute('y2', y2);
+          crosswordSvg.appendChild(line);
         }
-      } else {
-        const start = [
-          puzzleData.down[payload.number].row,
-          puzzleData.down[payload.number].col,
-        ];
-        let line = document.createElementNS(
-          'http://www.w3.org/2000/svg',
-          'line'
-        );
-
-        let x1 = start[1] * 6.666 + 3.325;
-        let y1 = start[0] * 6.666 + 3.325;
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('opacity', '0.5');
-        line.setAttribute('stroke', payload.color);
-
-        for (let i = 0; i < payload.answer.length; i++) {
-          crossword.current?.setGuess(start[0], start[1], payload.answer[i]);
-          cells.push(`${start[0]}, ${start[1]}, ${payload.answer[i]}`);
-          if (i === payload.answer.length - 1) {
-            let x2 = start[1] * 6.666 + 3.325;
-            let y2 = start[0] * 6.666 + 3.325;
-            line.setAttribute('x2', x2);
-            line.setAttribute('y2', y2);
-            crosswordSvg.appendChild(line);
-          }
+        if (payload.direction === 'across') {
+          start[1]++;
+        } else {
           start[0]++;
         }
       }
