@@ -185,6 +185,11 @@ export default function MyPage(props) {
     <div className="game-board">
       <Timer />
       <Clues />
+      <div>
+        <h1>{selectedPuzzle.name}</h1>
+        <h3>Difficulty: {selectedPuzzle.difficulty.toUpperCase()}</h3>
+      </div>
+
       <div style={{ height: 500, width: 1400 }} className="game">
         <Crossword
           onCorrect={onCorrect}
