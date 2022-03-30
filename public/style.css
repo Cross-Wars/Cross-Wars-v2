@@ -1,5 +1,5 @@
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 label {
@@ -63,6 +63,10 @@ form div {
   color: #cdd27e;
   font-size: medium;
   margin: 0px;
+}
+
+nav img {
+  height: 95px;
 }
 
 .footer-left {
@@ -248,7 +252,7 @@ form {
   opacity: 0%;
 }
 
-.results-container{
+.results-container {
   display: flex;
   flex-direction: column;
   align-items: center;
