@@ -3,11 +3,13 @@ const {
   db,
   models: { User, Crossword },
 } = require('../server/db');
+const data14 = require('../public/crosswords/2014/exports');
 const data15 = require('../public/crosswords/2015/exports');
 const data16 = require('../public/crosswords/2016/exports');
 const data17 = require('../public/crosswords/2017/exports');
 const dataFormatter = require('../public/crosswords/conversion');
 
+const cs14 = Object.values(data14);
 const cs15 = Object.values(data15);
 const cs16 = Object.values(data16);
 const cs17 = Object.values(data17);
@@ -32,7 +34,8 @@ const makeCrossword = (array) => {
   });
 };
 
-const crosswords = makeCrossword(cs15).concat(
+const crosswords = makeCrossword(cs14).concat(
+  makeCrossword(cs15),
   makeCrossword(cs16),
   makeCrossword(cs17)
 );
