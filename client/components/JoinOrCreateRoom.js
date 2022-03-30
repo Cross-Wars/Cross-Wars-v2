@@ -4,6 +4,7 @@ import { uid } from 'uid';
 import Logo from './Logo';
 import Footer from './Footer';
 import { Button } from '@material-ui/core';
+import generator from './randomNamer';
 import { Link } from 'react-router-dom';
 
 export default function JoinOrCreateRoom(props) {
@@ -15,7 +16,7 @@ export default function JoinOrCreateRoom(props) {
   const [state, setState] = useState({
     color: 'blue',
     highlightBackground: '#9CC3D5FF',
-    nickname: 'WordCrosser',
+    nickname: generator(),
     host: false,
     roomId: '',
     socket: null,
