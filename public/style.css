@@ -6,11 +6,6 @@ label {
   display: block;
 }
 
-/* nav a {
-  display: inline-block;
-  margin: 1em;
-} */
-
 .nav-bar {
   background-color: #6e2b6e;
   color: white;
@@ -33,27 +28,18 @@ label {
   width: 100px;
 }
 
-.logo {
-  max-width: 100%;
-  height: auto;
-}
-
 form div {
   margin: 1em;
   display: inline-block;
 }
 
-/* footer */
-
 .footer-container {
   background-color: #6e2b6e;
-  box-sizing: border-box;
+  color: #cdd27e;
   width: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-evenly;
-  padding: 25px 50px;
+  padding: 10px 15px;
   gap: 2px;
   position: fixed;
   bottom: 0;
@@ -61,8 +47,6 @@ form div {
 
 .footer-left p {
   color: #cdd27e;
-  font-size: medium;
-  margin: 0px;
 }
 
 nav img {
@@ -71,9 +55,6 @@ nav img {
 
 .footer-left {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
 }
 .footer-right a {
   display: inline-block;
@@ -92,12 +73,6 @@ nav img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  text-align: center;
-}
-
-.footer-right div {
-  font-size: small;
 }
 
 .author img {
@@ -132,8 +107,6 @@ nav img {
 .game {
   display: flex;
   flex-direction: row;
-  /* padding-top: 1.5in; */
-  /* width: 100%; */
 }
 
 .crossword {
@@ -256,4 +229,18 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media (max-width: 600px) {
+  /* more CSS for that specific screen size
+
+  other things to consider:
+  box-sizing: border-box vs flex-box
+  position: absolute (for joinOrCreateRoom-container)
+
+  */
+  .footer-container {
+    background-color: black;
+    text-align: center;
+  }
 }

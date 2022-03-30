@@ -1,18 +1,18 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import Logo from './Logo';
-import { Button } from '@material-ui/core';
-import Instructions from './Instruction';
-import socket from './socket';
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import Logo from "./Logo";
+import { Button } from "@material-ui/core";
+import Instructions from "./Instruction";
+import socket from "./socket";
 
 const Navbar = (props) => {
   const history = useHistory();
   const handleClick = () => {
-    const room = window.localStorage.getItem('roomId');
+    const room = window.localStorage.getItem("roomId");
     if (room) {
-      socket.emit('leave-room', room);
+      socket.emit("leave-room", room);
     }
-    history.push('/');
+    history.push("/");
   };
   return (
     <nav>
