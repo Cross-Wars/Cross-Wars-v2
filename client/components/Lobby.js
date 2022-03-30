@@ -147,7 +147,15 @@ export default function Lobby(props) {
         <option value="2015">2015</option>
         <option value="2014">2014</option>
       </select>
-      <Button variant="contained" color="secondary">
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => {
+          let randomIndex = Math.floor(Math.random() * filterCrosswords.length);
+          const randomPuzzle = filterCrosswords[randomIndex];
+          startSession(randomPuzzle);
+        }}
+      >
         Choose Random Puzzle
       </Button>
       <div className="card-container">
