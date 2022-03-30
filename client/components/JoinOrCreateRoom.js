@@ -107,9 +107,7 @@ export default function JoinOrCreateRoom(props) {
   return (
     <div className="joinOrCreateRoom-container">
       <div id="create-form">
-        <div id="landing-page-logo">
-          <Logo />
-        </div>
+        <h1>🔪 CrossWars 🔪</h1>
         <form>
           <label htmlFor="nickname-input">Enter Your Nickname</label>
           <input
