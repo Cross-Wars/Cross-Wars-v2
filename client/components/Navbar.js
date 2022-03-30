@@ -21,9 +21,8 @@ const Navbar = (props) => {
           Home
         </Button>
         <div className="logo">
-          <Logo />
+          <img src="/crosswars2.png" />
         </div>
-
         <Instructions />
       </div>
     </nav>
