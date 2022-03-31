@@ -14,6 +14,7 @@ export default function Results() {
   useEffect(() => {
     function sound(src) {
       this.sound = document.createElement('audio');
+      this.sound.volume = 0.4;
       this.sound.src = src;
       this.sound.setAttribute('preload', 'auto');
       this.sound.setAttribute('controls', 'none');
