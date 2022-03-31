@@ -3,26 +3,42 @@ const {
   db,
   models: { User, Crossword },
 } = require('../server/db');
-const importedCrosswords = require('../public/crosswords/2016/exports');
+const data14 = require('../public/crosswords/2014/exports');
+const data15 = require('../public/crosswords/2015/exports');
+const data16 = require('../public/crosswords/2016/exports');
+const data17 = require('../public/crosswords/2017/exports');
 const dataFormatter = require('../public/crosswords/conversion');
 
-const data = Object.values(importedCrosswords);
+const cs14 = Object.values(data14);
+const cs15 = Object.values(data15);
+const cs16 = Object.values(data16);
+const cs17 = Object.values(data17);
 
-const crosswords = data.map((crossword) => {
-  return {
-    name: crossword.title,
-    date: new Date(crossword.date),
-    difficulty: `${
-      crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
-        ? 'easy'
-        : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
-        ? 'medium'
-        : 'hard'
-    }`,
-    author: crossword.author,
-    data: JSON.stringify(dataFormatter(crossword)),
-  };
-});
+const makeCrossword = (array) => {
+  return array.map((crossword) => {
+    if (crossword.gridnums.length === 225) {
+      return {
+        name: crossword.title,
+        date: new Date(crossword.date),
+        difficulty: `${
+          crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
+            ? 'easy'
+            : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
+            ? 'medium'
+            : 'hard'
+        }`,
+        author: crossword.author,
+        data: JSON.stringify(dataFormatter(crossword)),
+      };
+    }
+  });
+};
+
+const crosswords = makeCrossword(cs14).concat(
+  makeCrossword(cs15),
+  makeCrossword(cs16),
+  makeCrossword(cs17)
+);
 
 /**
  * seed - this function clears the database, updates tables to
@@ -39,7 +55,9 @@ async function seed() {
   ]);
   await Promise.all(
     crosswords.map((crossword) => {
-      if (crossword.dow !== 'Sunday') return Crossword.create(crossword);
+      if (crossword) {
+        return Crossword.create(crossword);
+      }
     })
   );
 

@@ -1,29 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import socket from './socket';
+import React, { useEffect, useState } from "react"
+import socket from "./socket"
 
 export default function Timer() {
-  const [time, setTime] = useState(600);
-  const room = window.localStorage.getItem('roomId');
-  let secondsPassed = 0;
+  const startTime = 10
+  const [time, setTime] = useState(startTime)
+  const room = window.localStorage.getItem("roomId")
+  let secondsPassed = 0
   useEffect(() => {
-    const losecheck = setInterval(() => {
-      secondsPassed++;
-      if (secondsPassed > 600) {
-        socket.emit('game-over', { roomId: room });
+    function sound(src) {
+      this.sound = document.createElement("audio")
+      this.sound.src = src
+      this.sound.setAttribute("preload", "auto")
+      this.sound.setAttribute("controls", "none")
+      this.sound.style.display = "none"
+      document.body.appendChild(this.sound)
+      this.play = function () {
+        this.sound.play()
       }
-      setTime(600 - secondsPassed);
-    }, 1000);
+      this.stop = function () {
+        this.sound.pause()
+      }
+    }
+    const tick = new sound("/tick.mp3")
+    const losecheck = setInterval(() => {
+      secondsPassed++
+      if (secondsPassed > startTime) {
+        socket.emit("game-over", { roomId: room })
+      }
+      if (startTime - secondsPassed < 5) {
+        tick.play()
+      }
+      setTime(startTime - secondsPassed)
+    }, 1000)
 
     return function cleanup() {
-      clearInterval(losecheck);
-    };
-  }, []);
+      tick.sound.remove()
+      clearInterval(losecheck)
+    }
+  }, [])
 
   return (
     <div>
       <h2>
-        {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}
+        {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
       </h2>
     </div>
-  );
+  )
 }

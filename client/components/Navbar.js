@@ -17,7 +17,7 @@ const Navbar = ({ handleClickLogout, isLoggedIn, username }) => {
     }
     history.push("/")
   }
-  console.log(isLoggedIn)
+
   return (
     <nav>
       {isLoggedIn ? (
@@ -25,10 +25,10 @@ const Navbar = ({ handleClickLogout, isLoggedIn, username }) => {
           <Button variant="contained" color="secondary" onClick={handleClick}>
             Home
           </Button>
+
           <div className="logo">
-            <Logo />
+            <img src="/crosswars2.png" />
           </div>
-          <h1>🔪 CrossWars 🔪</h1>
           <Instructions />
           <Button variant="contained" color="secondary">
             <a href="#" onClick={handleClickLogout}>
@@ -41,10 +41,10 @@ const Navbar = ({ handleClickLogout, isLoggedIn, username }) => {
           <Button variant="contained" color="secondary" onClick={handleClick}>
             Home
           </Button>
+
           <div className="logo">
-            <Logo />
+            <img src="/crosswars2.png" />
           </div>
-          <h1>🔪 CrossWars 🔪</h1>
           <Instructions />
           <Button variant="contained" color="secondary">
             <Link to="/login">Login</Link>

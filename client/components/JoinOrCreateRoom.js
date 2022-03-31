@@ -5,6 +5,7 @@ import Logo from "./Logo"
 import Footer from "./Footer"
 import { Button } from "@material-ui/core"
 import { Link } from "react-router-dom"
+import generator from "./randomNamer"
 import { useSelector } from "react-redux"
 
 export default function JoinOrCreateRoom(props) {
@@ -20,7 +21,7 @@ export default function JoinOrCreateRoom(props) {
   const [state, setState] = useState({
     color: "blue",
     highlightBackground: "#9CC3D5FF",
-    nickname: name,
+    nickname: generator(),
     host: false,
     roomId: "",
     socket: null,
@@ -30,6 +31,12 @@ export default function JoinOrCreateRoom(props) {
   }, [isLoggedIn])
 
   useEffect(() => {
+    const puzzle = window.localStorage.getItem("puzzle")
+    console.log(puzzle)
+    if (puzzle) {
+      window.localStorage.removeItem("puzzle")
+      document.location.reload()
+    }
     setState({ ...state, socket: socket })
     const room = props.location.search.substring(1)
     if (!room) {
@@ -113,52 +120,47 @@ export default function JoinOrCreateRoom(props) {
   }
 
   return (
-    <div className="splash-container">
-      <div className="splash">
-        <div id="create-form">
-          <div id="landing-page-logo">
-            <Logo />
-          </div>
-          <form>
-            <label htmlFor="nickname-input">Enter Your Nickname</label>
-            <input
-              name="nickname-input"
-              onChange={handleNickNameChange}
-              type="text"
-              value={state.nickname}
-            />
-            <label htmlFor="color-select">Choose a Color</label>
-            <select defaultValue={state.color} onChange={handleColorChange}>
-              <option value="blue">Blue</option>
-              <option value="#D9514EFF">Red</option>
-              <option value="#0A5E2AFF">Dark Green</option>
-              <option value="#D34F73FF">Mystic</option>
-              <option value="#FF4F58FF">Fiery Coral</option>
-              <option value="orange">Orange</option>
-              <option value="#CE4A7EFF">Pink</option>
-              <option value="#93385FFF">Purple</option>
-            </select>
-          </form>
-          {props.location.search.substring(1) ? (
-            <form onSubmit={handleSubmit}>
-              <Button variant="contained" color="secondary" type="submit">
-                JOIN ROOM
-              </Button>
-            </form>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              {/* <button className="pure-button" type="submit">
-              CREATE ROOM
-            </button> */}
-              <Button variant="contained" color="secondary" type="submit">
-                CREATE ROOM
-              </Button>
-            </form>
-          )}
+    <div className="joinOrCreateRoom-container">
+      <div id="create-form">
+        <div id="landing-page-logo">
+          <Logo />
         </div>
-
-        <Footer />
+        <form>
+          <label htmlFor="nickname-input">Enter Your Nickname</label>
+          <input
+            name="nickname-input"
+            onChange={handleNickNameChange}
+            type="text"
+            value={state.nickname}
+          />
+          <label htmlFor="color-select">Choose a Color</label>
+          <select defaultValue={state.color} onChange={handleColorChange}>
+            <option value="blue">Blue</option>
+            <option value="#D9514EFF">Red</option>
+            <option value="#0A5E2AFF">Dark Green</option>
+            <option value="#D34F73FF">Mystic</option>
+            <option value="#FF4F58FF">Fiery Coral</option>
+            <option value="orange">Orange</option>
+            <option value="#CE4A7EFF">Pink</option>
+            <option value="#93385FFF">Purple</option>
+          </select>
+        </form>
+        {props.location.search.substring(1) ? (
+          <form onSubmit={handleSubmit}>
+            <Button variant="contained" color="secondary" type="submit">
+              JOIN ROOM
+            </Button>
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <Button variant="contained" color="secondary" type="submit">
+              CREATE ROOM
+            </Button>
+          </form>
+        )}
       </div>
+
+      <Footer />
     </div>
   )
 }

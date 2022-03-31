@@ -12,6 +12,22 @@ export default function Results() {
   }
 
   useEffect(() => {
+    function sound(src) {
+      this.sound = document.createElement('audio');
+      this.sound.src = src;
+      this.sound.setAttribute('preload', 'auto');
+      this.sound.setAttribute('controls', 'none');
+      this.sound.style.display = 'none';
+      document.body.appendChild(this.sound);
+      this.play = function () {
+        this.sound.play();
+      };
+      this.stop = function () {
+        this.sound.pause();
+      };
+    }
+    const fanfare = new sound('/fanfare.mp3');
+    fanfare.play();
     let resultsSet = false;
     loadUsers();
     socket.on('render-users', (playerInfo) => {
@@ -24,12 +40,16 @@ export default function Results() {
     setTimeout(() => {
       setPieces(0);
     }, 10000);
+
+    return function cleanup() {
+      fanfare.sound.remove();
+    };
   }, []);
 
   return (
-    <div>
+    <div className="results-container">
       <Confetti numberOfPieces={pieces} />
-      <h1>THE WINNER:</h1>
+      <h1>THE WINNER: {players[0] ? `${players[0].nickname}` : ''}</h1>
       {players.map((player, i) => {
         return (
           <div key={i}>

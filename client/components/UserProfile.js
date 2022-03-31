@@ -15,26 +15,29 @@ const UserProfile = () => {
   console.log(userData)
   return (
     <div>
-      <ol>
+      <ul>
         {userData.map((game) => {
           return (
-            <Card style={{ border: " solid", borderColor: "black" }}>
-              <div key={game.id}>
+            <Card
+              key={game.id}
+              style={{ border: " solid", borderColor: "black" }}
+            >
+              <div>
                 <h1>GameNo: {game.users[0].userGame.gameId}</h1>
                 <h1>CrosswordName: {game.crossword.name}</h1>
                 <h1>Difficulty: {game.crossword.difficulty}</h1>
                 <h1>CrosswordAuthor: {game.crossword.author}</h1>
                 <h1>Score:{game.users[0].userGame.score}</h1>
                 {/* 
-                <Crossword data={game.crossword.data} /> */}
-
-                {/* <h1>{game.gameId}</h1>
-              <h2>{game.score}</h2> */}
+                <Crossword
+                  data={JSON.parse(game.crossword.data)}
+                  useStorage={false}
+                /> */}
               </div>
             </Card>
           )
         })}
-      </ol>
+      </ul>
     </div>
   )
 }

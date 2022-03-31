@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import socket from "./socket"
 import { Link } from "react-router-dom"
-import { fetchAllCrossword } from "../store/crossword"
+import { fetchCrosswordsByYear } from "../store/crossword"
 import { Button } from "@material-ui/core"
 import { createGame } from "../store/crossword"
 
 export default function Lobby(props) {
-  const crosswords = useSelector((state) => state.dataReducer.allCrossword)
+  let crosswords = useSelector((state) => state.dataReducer.allCrossword)
   const dispatch = useDispatch()
 
   window.localStorage.setItem("puzzle", "{}")
@@ -17,10 +17,11 @@ export default function Lobby(props) {
     host: "",
     selectedPuzzle: "2017-01-04",
     difficulty: "All",
+    year: 2017,
   })
 
   useEffect(() => {
-    dispatch(fetchAllCrossword())
+    dispatch(fetchCrosswordsByYear(state.year))
 
     const room = window.localStorage.getItem("roomId") //the roomId is passed to the lobby through localStorage
     socket.emit("get-host", room)
@@ -64,7 +65,6 @@ export default function Lobby(props) {
   function handleClick() {
     const roomId = window.localStorage.getItem("roomId")
     navigator.clipboard.writeText(`${window.location.host}/?` + roomId)
-    // alert("Link copied to clipboard!");
   }
 
   function filterDifficulty(crosswords) {
@@ -96,79 +96,110 @@ export default function Lobby(props) {
   const filterCrosswords = filterDifficulty(crosswords)
 
   return (
-    <div className="splash-container">
-      <div className="splash">
-        <div className="lobby-header">
-          <h2>{`${state.host}'s Lobby`}</h2>
-          {/* <button
-            className="button-success pure-button"
-            type="button"
-            onClick={() => handleClick()}
-          >
-            Copy Invite Link
-          </button> */}
+    <div>
+      <div className="lobby-header">
+        <h2>{`${state.host}'s Lobby`}</h2>
 
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => handleClick()}
-          >
-            Copy Invite Link
-          </Button>
-        </div>
-
-        <h3>PLAYERS:</h3>
-        <div className="card-container">
-          {state.players.map((player, i) => {
-            return (
-              <div className="card" key={i}>
-                <h4 style={{ color: player.color }}>{player.nickname}</h4>
-              </div>
-            )
-          })}
-        </div>
-        <h3>Choose a Puzzle!</h3>
-        <select
-          value={state.difficulty}
-          onChange={(event) =>
-            setState({ ...state, difficulty: event.target.value })
-          }
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => handleClick()}
         >
-          <option value="all">All</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <div className="card-container">
-          {filterCrosswords.map((puzzle, ind) => {
-            return (
-              <div className="card" key={ind}>
-                <div className="puzzle-logo">
-                  <h1>{puzzle.difficulty[0].toUpperCase()}</h1>
-                  <p>{ind + 1}</p>
-                </div>
-                <div>{puzzle.difficulty}</div>
-                <div>{puzzle.name}</div>
-                {isUserHost === "true" ? (
-                  <Link to={`/game/${room}`}>
-                    <button
-                      type="submit"
-                      value={puzzle.date}
-                      onClick={() => {
-                        startSession(puzzle)
-                        dispatch(createGame(puzzle.id))
-                      }}
-                    >
-                      Start Puzzle
-                    </button>
-                  </Link>
-                ) : (
-                  <br />
-                )}
-              </div>
+          Copy Invite Link
+        </Button>
+      </div>
+
+      <h3>PLAYERS:</h3>
+      <div className="card-container">
+        {state.players.map((player, i) => {
+          return (
+            <div className="card" key={i}>
+              <h4 style={{ color: player.color }}>{player.nickname}</h4>
+            </div>
+          )
+        })}
+      </div>
+      {isUserHost === "true" ? (
+        <h3>Choose a Puzzle!</h3>
+      ) : (
+        <h3>Your Host Will Choose A Puzzle!</h3>
+      )}
+
+      <select
+        value={state.difficulty}
+        onChange={(event) =>
+          setState({ ...state, difficulty: event.target.value })
+        }
+      >
+        <option value="all">All</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <select
+        value={state.year}
+        onChange={(event) => {
+          setState({ ...state, year: parseInt(event.target.value) })
+          dispatch(fetchCrosswordsByYear(event.target.value))
+        }}
+      >
+        <option value="2017">2017</option>
+        <option value="2016">2016</option>
+        <option value="2015">2015</option>
+        <option value="2014">2014</option>
+      </select>
+      {isUserHost === "true" ? (
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            let randomIndex = Math.floor(
+              Math.random() * filterCrosswords.length
             )
-          })}
-        </div>
+            const randomPuzzle = filterCrosswords[randomIndex]
+            startSession(randomPuzzle)
+            dispatch(createGame(puzzle.id))
+          }}
+        >
+          Choose Random Puzzle
+        </Button>
+      ) : (
+        <br></br>
+      )}
+
+      <div className="card-container">
+        {filterCrosswords.map((puzzle, ind) => {
+          return (
+            <div className="card" key={ind}>
+              <div className="puzzle-logo">
+                <h1>{puzzle.difficulty[0].toUpperCase()}</h1>
+                <p>{ind + 1}</p>
+              </div>
+              <br />
+              <div>
+                {puzzle.difficulty[0].toUpperCase() +
+                  puzzle.difficulty.slice(1)}
+              </div>
+              <div>{puzzle.name}</div>
+              {isUserHost === "true" ? (
+                <Link to={`/game/${room}`}>
+                  <button
+                    type="submit"
+                    value={puzzle.date}
+                    onClick={() => {
+                      startSession(puzzle)
+                      dispatch(createGame(puzzle.id))
+                    }}
+                  >
+                    Start Puzzle
+                  </button>
+                </Link>
+              ) : (
+                <br />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
