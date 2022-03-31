@@ -88,7 +88,7 @@ const init = async () => {
         socket.to(roomId).emit("begin-session", puzzle)
       })
 
-      socket.on('leave-room', async (roomId) => {
+      socket.on("leave-room", async (roomId) => {
         socket.leave(roomId)
         const users = await io.in(roomId).fetchSockets()
         let players = []
@@ -106,7 +106,7 @@ const init = async () => {
             id,
           })
         }
-        io.to(roomId).emit('render-users', players)
+        io.to(roomId).emit("render-users", players)
       })
 
       socket.on("game-over", (payload) => {

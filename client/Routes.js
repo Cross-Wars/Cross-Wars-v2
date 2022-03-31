@@ -12,6 +12,7 @@ import Instructions from "./components/Instruction"
 import Scores from "./components/Scores"
 import Results from "./components/Results"
 import Error from "./components/Error"
+import UserProfile from "./components/UserProfile"
 
 /**
  * COMPONENT
@@ -26,32 +27,48 @@ class Routes extends Component {
     const { isLoggedIn } = this.props
 
     return (
-      // <div>
-      //   {isLoggedIn ? (
-      //     <Switch>
-      //       <Route path="/home" component={Home} />
-      //       <Redirect to="/home" />
+      <div>
+        {isLoggedIn ? (
+          <div style={{ paddingTop: "1.5in" }}>
+            <Switch>
+              <Route exact path="/" component={JoinOrCreateRoom} />
+              <Route path="/?:roomId" component={JoinOrCreateRoom} />
+              <Route path="/game" component={MyPage} />
+              <Route path="/lobby" component={Lobby} />
+              <Route exact path="/error" component={Error} />
 
-      //     </Switch>
-      //   ) : (
-      //     <Switch>
-      //       <Route path='/' exact component={ Login } />
-      //       <Route path="/login" component={Login} />
-      //       <Route path="/signup" component={Signup} />
-      //     </Switch>
-      //   )}
-      // </div>
-      <div style={{ paddingTop: "1.5in" }}>
-        <Switch>
-          <Route exact path="/" component={JoinOrCreateRoom} />
-          <Route path="/?:roomId" component={JoinOrCreateRoom} />
-          <Route path="/game" component={MyPage} />
-          <Route path="/lobby" component={Lobby} />
-          <Route exact path="/error" component={Error} />
+              <Route path="/results" component={Results} />
+              <Route exact path="/userProfile" component={UserProfile} />
+            </Switch>
+          </div>
+        ) : (
+          <div style={{ paddingTop: "1.5in" }}>
+            <Switch>
+              <Route exact path="/" component={JoinOrCreateRoom} />
+              <Route path="/?:roomId" component={JoinOrCreateRoom} />
+              <Route path="/game" component={MyPage} />
+              <Route path="/lobby" component={Lobby} />
+              <Route exact path="/error" component={Error} />
 
-          <Route path="/results" component={Results} />
-        </Switch>
+              <Route path="/results" component={Results} />
+
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+            </Switch>
+          </div>
+        )}
       </div>
+      // <div style={{ paddingTop: "1.5in" }}>
+      //   <Switch>
+      //     <Route exact path="/" component={JoinOrCreateRoom} />
+      //     <Route path="/?:roomId" component={JoinOrCreateRoom} />
+      //     <Route path="/game" component={MyPage} />
+      //     <Route path="/lobby" component={Lobby} />
+      //     <Route exact path="/error" component={Error} />
+
+      //     <Route path="/results" component={Results} />
+      //   </Switch>
+      // </div>
     )
   }
 }

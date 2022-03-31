@@ -5,8 +5,13 @@ import Logo from "./Logo"
 import Footer from "./Footer"
 import { Button } from "@material-ui/core"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 export default function JoinOrCreateRoom(props) {
+  const isLoggedIn = useSelector((state) => !!state.auth.id)
+  const userName = useSelector((state) => state.auth.username)
+  console.log(userName)
+  const name = isLoggedIn ? userName : "WordCrosser"
   // const [newKey, setNewKey] = useState("");
   // const [joinKey, setJoinKey] = useState("");
   // const [roomId, setRoomId] = useState("");
@@ -15,11 +20,14 @@ export default function JoinOrCreateRoom(props) {
   const [state, setState] = useState({
     color: "blue",
     highlightBackground: "#9CC3D5FF",
-    nickname: "WordCrosser",
+    nickname: name,
     host: false,
     roomId: "",
     socket: null,
   })
+  useEffect(() => {
+    setState({ ...state, nickname: name })
+  }, [isLoggedIn])
 
   useEffect(() => {
     setState({ ...state, socket: socket })

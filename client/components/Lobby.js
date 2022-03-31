@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import socket from "./socket"
 import { Link } from "react-router-dom"
 import { fetchAllCrossword } from "../store/crossword"
 import { Button } from "@material-ui/core"
+import { createGame } from "../store/crossword"
 
 export default function Lobby(props) {
   const crosswords = useSelector((state) => state.dataReducer.allCrossword)
@@ -19,54 +19,49 @@ export default function Lobby(props) {
     difficulty: "All",
   })
 
-
   useEffect(() => {
     dispatch(fetchAllCrossword())
 
+    const room = window.localStorage.getItem("roomId") //the roomId is passed to the lobby through localStorage
+    socket.emit("get-host", room)
 
-    const room = window.localStorage.getItem('roomId'); //the roomId is passed to the lobby through localStorage
-    socket.emit('get-host', room);
+    loadUsers()
+    socket.on("render-users", (playerInfo) => {
+      setState({ ...state, players: playerInfo, host: playerInfo[0].nickname })
+    })
 
-    loadUsers();
-    socket.on('render-users', (playerInfo) => {
-      setState({ ...state, players: playerInfo, host: playerInfo[0].nickname });
-    });
+    socket.on("update-users", () => {
+      loadUsers()
+    })
 
-    socket.on('update-users', () => {
-      loadUsers();
-    });
-
-    socket.on('begin-session', (puzzle) => {
-      const roomId = window.localStorage.getItem('roomId');
-      window.localStorage.setItem('puzzle', JSON.stringify(puzzle));
-      props.history.push(`/game/${roomId}`);
+    socket.on("begin-session", (puzzle) => {
+      const roomId = window.localStorage.getItem("roomId")
+      window.localStorage.setItem("puzzle", JSON.stringify(puzzle))
+      props.history.push(`/game/${roomId}`)
     })
   }, [])
 
   function loadUsers() {
     const roomId = window.localStorage.getItem("roomId")
     socket.emit("load-users", roomId)
-
   }
 
   //function to change which puzzle is currently selected:
   function selectPuzzle(puzzle) {
-    window.localStorage.setItem('puzzle', JSON.stringify(puzzle));
-    setState({ ...state, selectedPuzzle: puzzle.date });
-
+    window.localStorage.setItem("puzzle", JSON.stringify(puzzle))
+    setState({ ...state, selectedPuzzle: puzzle.date })
   }
 
   //handler function to push all players into a game room with the selected puzzle
   function startSession(puzzle) {
-    const roomId = window.localStorage.getItem('roomId');
-    selectPuzzle(puzzle);
-    socket.emit('start-session', roomId, puzzle);
-    props.history.push(`/game/${roomId}`);
+    const roomId = window.localStorage.getItem("roomId")
+    selectPuzzle(puzzle)
+    socket.emit("start-session", roomId, puzzle)
+    props.history.push(`/game/${roomId}`)
   }
 
   //handler function to add the URL with room id to the clipboard
   function handleClick() {
-
     const roomId = window.localStorage.getItem("roomId")
     navigator.clipboard.writeText(`${window.location.host}/?` + roomId)
     // alert("Link copied to clipboard!");
@@ -154,13 +149,14 @@ export default function Lobby(props) {
                 </div>
                 <div>{puzzle.difficulty}</div>
                 <div>{puzzle.name}</div>
-                {isUserHost === 'true' ? (
+                {isUserHost === "true" ? (
                   <Link to={`/game/${room}`}>
                     <button
                       type="submit"
                       value={puzzle.date}
                       onClick={() => {
                         startSession(puzzle)
+                        dispatch(createGame(puzzle.id))
                       }}
                     >
                       Start Puzzle
