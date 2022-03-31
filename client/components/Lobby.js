@@ -158,7 +158,7 @@ export default function Lobby(props) {
             )
             const randomPuzzle = filterCrosswords[randomIndex]
             startSession(randomPuzzle)
-            dispatch(createGame(puzzle.id))
+            dispatch(createGame(randomPuzzle.id))
           }}
         >
           Choose Random Puzzle
