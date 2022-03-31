@@ -13,10 +13,18 @@ import socket from "./socket"
 import Timer from "./Timer"
 import Scores from "./Scores"
 import Clues from "./TrackingClues"
+import { updateGameComplete } from "../store/crossword"
 
 export default function MyPage(props) {
   const dispatch = useDispatch()
   const crosswords = useSelector((state) => state.dataReducer.allCrossword)
+  const gameId = useSelector((state) => state.dataReducer.game.id)
+  console.log(gameId)
+
+  const gameIdLocalStorage = window.localStorage.setItem(
+    "gameId",
+    String(gameId)
+  )
   const room = window.localStorage.getItem("roomId")
 
   const crossword = useRef(null)
@@ -46,6 +54,7 @@ export default function MyPage(props) {
 
     window.localStorage.setItem("correctClues", "[]")
     window.localStorage.setItem("correctCells", "[]")
+    window.localStorage.setItem("score", "0")
     let crosswordSvg = document.querySelector("div.crossword svg")
 
     const wincheck = setInterval(() => {
@@ -60,6 +69,9 @@ export default function MyPage(props) {
     }, 1000)
 
     socket.on("show-results", () => {
+      let score = Number(window.localStorage.getItem("score"))
+      let gameId = Number(window.localStorage.getItem("gameId"))
+      dispatch(updateGameComplete(gameId, { score: score }))
       props.history.push(`/results/${room}`)
     })
 
@@ -168,6 +180,9 @@ export default function MyPage(props) {
     const corrects = JSON.parse(window.localStorage.getItem("correctClues"))
     const newCorrect = `${number} ${direction}`
     if (!corrects.includes(newCorrect)) {
+      let score = Number(window.localStorage.getItem("score"))
+      score += 100
+      window.localStorage.setItem("score", String(score))
       socket.emit("correctWord", {
         direction,
         number,

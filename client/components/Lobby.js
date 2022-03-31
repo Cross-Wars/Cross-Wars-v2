@@ -4,6 +4,7 @@ import socket from "./socket"
 import { Link } from "react-router-dom"
 import { fetchCrosswordsByYear } from "../store/crossword"
 import { Button } from "@material-ui/core"
+import { createGame } from "../store/crossword"
 
 export default function Lobby(props) {
   let crosswords = useSelector((state) => state.dataReducer.allCrossword)
@@ -157,6 +158,7 @@ export default function Lobby(props) {
             )
             const randomPuzzle = filterCrosswords[randomIndex]
             startSession(randomPuzzle)
+            dispatch(createGame(puzzle.id))
           }}
         >
           Choose Random Puzzle
@@ -186,6 +188,7 @@ export default function Lobby(props) {
                     value={puzzle.date}
                     onClick={() => {
                       startSession(puzzle)
+                      dispatch(createGame(puzzle.id))
                     }}
                   >
                     Start Puzzle

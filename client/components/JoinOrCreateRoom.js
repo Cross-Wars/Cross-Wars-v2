@@ -1,115 +1,123 @@
-import React, { useState, useEffect } from 'react';
-import socket from './socket';
-import { uid } from 'uid';
-import Logo from './Logo';
-import Footer from './Footer';
-import { Button } from '@material-ui/core';
-import generator from './randomNamer';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react"
+import socket from "./socket"
+import { uid } from "uid"
+import Logo from "./Logo"
+import Footer from "./Footer"
+import { Button } from "@material-ui/core"
+import { Link } from "react-router-dom"
+import generator from "./randomNamer"
+import { useSelector } from "react-redux"
 
 export default function JoinOrCreateRoom(props) {
+  const isLoggedIn = useSelector((state) => !!state.auth.id)
+  const userName = useSelector((state) => state.auth.username)
+  console.log(userName)
+  const name = isLoggedIn ? userName : "WordCrosser"
   // const [newKey, setNewKey] = useState("");
   // const [joinKey, setJoinKey] = useState("");
   // const [roomId, setRoomId] = useState("");
   // const [host, setHost] = useState(false);
   // const [username, setUsername] = useState("user-name");
   const [state, setState] = useState({
-    color: 'blue',
-    highlightBackground: '#9CC3D5FF',
+    color: "blue",
+    highlightBackground: "#9CC3D5FF",
     nickname: generator(),
     host: false,
-    roomId: '',
+    roomId: "",
     socket: null,
-  });
+  })
+  useEffect(() => {
+    setState({ ...state, nickname: name })
+  }, [isLoggedIn])
 
   useEffect(() => {
-    const puzzle = window.localStorage.getItem('puzzle');
-    console.log(puzzle);
+    const puzzle = window.localStorage.getItem("puzzle")
+    console.log(puzzle)
     if (puzzle) {
-      window.localStorage.removeItem('puzzle');
-      document.location.reload();
+      window.localStorage.removeItem("puzzle")
+      document.location.reload()
     }
-    setState({ ...state, socket: socket });
-    const room = props.location.search.substring(1);
+    setState({ ...state, socket: socket })
+    const room = props.location.search.substring(1)
     if (!room) {
-      const newRoomId = uid();
-      setState({ ...state, roomId: newRoomId, host: true });
+      const newRoomId = uid()
+      setState({ ...state, roomId: newRoomId, host: true })
     } else {
-      setState({ ...state, roomId: room });
+      setState({ ...state, roomId: room })
     }
-    socket.on('room-full', () => {
-      props.history.push('/error');
-    });
-  }, []);
+    socket.on("room-full", () => {
+      props.history.push("/error")
+    })
+  }, [])
 
   const handleNickNameChange = (evt) => {
-    setState({ ...state, nickname: evt.target.value });
-  };
+    setState({ ...state, nickname: evt.target.value })
+  }
 
   const handleColorChange = (evt) => {
-    if (evt.target.value === '#D9514EFF') {
+    if (evt.target.value === "#D9514EFF") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#A9E5BBFF',
-      });
-    } else if (evt.target.value === 'orange') {
+        highlightBackground: "#A9E5BBFF",
+      })
+    } else if (evt.target.value === "orange") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#FBDE44FF',
-      });
-    } else if (evt.target.value === '#0A5E2AFF') {
+        highlightBackground: "#FBDE44FF",
+      })
+    } else if (evt.target.value === "#0A5E2AFF") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#6DAC4FFF',
-      });
-    } else if (evt.target.value === '#93385FFF') {
+        highlightBackground: "#6DAC4FFF",
+      })
+    } else if (evt.target.value === "#93385FFF") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#F99FC9FF',
-      });
-    } else if (evt.target.value === '#D34F73FF') {
+        highlightBackground: "#F99FC9FF",
+      })
+    } else if (evt.target.value === "#D34F73FF") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#DBBEA1FF',
-      });
-    } else if (evt.target.value === '#FF4F58FF') {
+        highlightBackground: "#DBBEA1FF",
+      })
+    } else if (evt.target.value === "#FF4F58FF") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#669DB3FF',
-      });
-    } else if (evt.target.value === '#CE4A7EFF') {
+        highlightBackground: "#669DB3FF",
+      })
+    } else if (evt.target.value === "#CE4A7EFF") {
       setState({
         ...state,
         color: evt.target.value,
-        highlightBackground: '#DBBEA1FF',
-      });
+        highlightBackground: "#DBBEA1FF",
+      })
     }
-  };
+  }
 
   // const handleJoinKeyChange = (evt) => {
   //   setJoinKey(evt.target.value);
   // };
 
   const handleSubmit = (evt) => {
-    evt.preventDefault();
-    socket.emit('set-info', state);
-    socket.emit('join-room', state.roomId);
+    evt.preventDefault()
+    socket.emit("set-info", state)
+    socket.emit("join-room", state.roomId)
     window.localStorage.setItem(
-      'color',
+      "color",
 
       `${state.color} ${state.highlightBackground}`
-    );
-    window.localStorage.setItem('focus', state.nickname);
-    window.localStorage.setItem('roomId', state.roomId);
-    window.localStorage.setItem('host', state.host);
-    props.history.push(`/lobby/${state.roomId}`);
-  };
+    )
+    window.localStorage.setItem("focus", state.nickname)
+    window.localStorage.setItem("roomId", state.roomId)
+    window.localStorage.setItem("host", state.host)
+    props.history.push(`/lobby/${state.roomId}`)
+  }
 
   return (
     <div className="joinOrCreateRoom-container">
@@ -154,5 +162,5 @@ export default function JoinOrCreateRoom(props) {
 
       <Footer />
     </div>
-  );
+  )
 }
