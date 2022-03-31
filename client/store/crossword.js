@@ -121,8 +121,6 @@ export const fetchCrosswordsByYear = (year) => {
   }
 }
 
-//---------REDUCER
-
 let initialState = {
   guess: "",
   allCrossword: [],
