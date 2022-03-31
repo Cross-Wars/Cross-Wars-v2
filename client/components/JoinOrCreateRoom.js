@@ -7,6 +7,7 @@ import { Button } from "@material-ui/core"
 import { Link } from "react-router-dom"
 import generator from "./randomNamer"
 import { useSelector } from "react-redux"
+import Instructions from "./Instruction"
 
 export default function JoinOrCreateRoom(props) {
   const isLoggedIn = useSelector((state) => !!state.auth.id)
@@ -158,6 +159,7 @@ export default function JoinOrCreateRoom(props) {
             </Button>
           </form>
         )}
+        <Instructions />
       </div>
 
       <Footer />

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { fetchCrosswordsByYear } from "../store/crossword"
 import { Button } from "@material-ui/core"
 import { createGame } from "../store/crossword"
+import Instructions from "./Instruction"
 
 export default function Lobby(props) {
   let crosswords = useSelector((state) => state.dataReducer.allCrossword)
@@ -107,6 +108,7 @@ export default function Lobby(props) {
         >
           Copy Invite Link
         </Button>
+        <Instructions />
       </div>
 
       <h3>PLAYERS:</h3>

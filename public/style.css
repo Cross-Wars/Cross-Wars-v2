@@ -1,9 +1,13 @@
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 label {
   display: block;
+}
+a {
+  color: white;
+  text-decoration: none;
 }
 
 .nav-bar {
