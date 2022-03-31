@@ -18,7 +18,7 @@ a {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   padding: 12px 25px;
   gap: 2px;
@@ -30,6 +30,12 @@ a {
 .nav-bar svg {
   height: 100px;
   width: 100px;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 3in;
 }
 
 form div {
@@ -235,7 +241,7 @@ form {
   align-items: center;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   /* more CSS for that specific screen size
 
   other things to consider:
@@ -243,8 +249,37 @@ form {
   position: absolute (for joinOrCreateRoom-container)
 
   */
+
+  /* * {
+    background-color: plum;
+  } */
+  .nav-bar {
+    justify-content: center;
+    background-color: rgb(182, 86, 168);
+  }
+  .nav-bar img {
+    height: 50px;
+    width: 100px;
+  }
+
+  .nav-buttons button {
+    background-color: #6e2b6e;
+    height: 3em;
+    width: 6em;
+  }
+
+  #create-form {
+    width: 400px;
+    height: 400px;
+    background-image: url("https://cdn.vox-cdn.com/thumbor/75a3S9wnGOcqCyl5poDNzQpYFZs=/0x0:4288x2633/1200x800/filters:focal(1801x974:2487x1660)/cdn.vox-cdn.com/uploads/chorus_image/image/69679666/834509654.0.jpg");
+  }
+
   .footer-container {
-    background-color: black;
+    background-color: rgb(182, 86, 168);
     text-align: center;
+  }
+
+  .footer-container p {
+    color: #6e2b6e;
   }
 }
