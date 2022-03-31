@@ -106,7 +106,7 @@ export default function MyPage(props) {
       // line.setAttribute('y1', y1);
       line.setAttribute('opacity', '0.25');
       line.setAttribute('stroke', payload.color);
-      line.setAttribute('stroke-width', '1');
+      line.setAttribute('stroke-width', '3');
       anime({
         targets: line,
         strokeDashoffset: [anime.setDashoffset, 0],
