@@ -29,11 +29,14 @@ const Navbar = ({ handleClickLogout, isLoggedIn, username }) => {
           <div className="logo">
             <img src="/crosswars2.png" />
           </div>
-          <Instructions />
+
           <Button variant="contained" color="secondary">
             <a href="#" onClick={handleClickLogout}>
               Logout
             </a>
+          </Button>
+          <Button variant="contained" color="secondary">
+            <Link to="/userProfile">UserProfile</Link>
           </Button>
         </div>
       ) : (
@@ -45,7 +48,7 @@ const Navbar = ({ handleClickLogout, isLoggedIn, username }) => {
           <div className="logo">
             <img src="/crosswars2.png" />
           </div>
-          <Instructions />
+
           <Button variant="contained" color="secondary">
             <Link to="/login">Login</Link>
           </Button>
