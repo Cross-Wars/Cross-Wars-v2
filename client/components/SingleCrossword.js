@@ -107,6 +107,7 @@ export default function MyPage(props) {
       line.setAttribute('opacity', '0.25');
       line.setAttribute('stroke', payload.color);
       line.setAttribute('stroke-width', '3');
+      line.setAttribute('stroke-linecap', 'round');
       anime({
         targets: line,
         strokeDashoffset: [anime.setDashoffset, 0],
