@@ -19,4 +19,7 @@ module.exports = db.define("crossword", {
     type: Sequelize.TEXT,
     allowNull: false,
   },
+  grid: {
+    type: Sequelize.ARRAY(Sequelize.TEXT),
+  }
 })

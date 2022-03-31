@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import socket from './socket';
 import Confetti from 'react-confetti';
+import GameOver from './GameOver';
 
 export default function Results() {
   const [players, setPlayers] = useState([]);
   const [pieces, setPieces] = useState(500);
+  const puzzle = JSON.parse(window.localStorage.getItem('puzzle'));
 
   function loadUsers() {
     const roomId = window.localStorage.getItem('roomId');
@@ -54,12 +56,13 @@ export default function Results() {
       {players.map((player, i) => {
         return (
           <div key={i}>
-            <h4 style={{ height: '280px', color: player.color }}>
+            <h4 style={{ height: '20px', color: player.color }}>
               {player.nickname}: {player.score}
             </h4>
           </div>
         );
       })}
+      <GameOver data={puzzle} />
     </div>
   );
 }

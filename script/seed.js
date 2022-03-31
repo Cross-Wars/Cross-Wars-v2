@@ -29,6 +29,7 @@ const makeCrossword = (array) => {
         }`,
         author: crossword.author,
         data: JSON.stringify(dataFormatter(crossword)),
+        grid: crossword.grid,
       };
     }
   });
