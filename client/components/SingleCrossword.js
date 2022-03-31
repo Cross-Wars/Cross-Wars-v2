@@ -91,7 +91,7 @@ export default function MyPage(props) {
       let line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
       let x1 = start[1] * 6.666 + 3.325;
-      let y1 = start[0] * 6.666 + 3.325;
+      let y1 = start[0] * 6.666 + 3.425;
       const x2 =
         payload.direction === 'across'
           ? x1 + 6.666 * (payload.answer.length - 1)
@@ -105,7 +105,7 @@ export default function MyPage(props) {
       // line.setAttribute('y1', y1);
       line.setAttribute('opacity', '0.25');
       line.setAttribute('stroke', payload.color);
-      line.setAttribute('stroke-width', '3');
+      line.setAttribute('stroke-width', '5');
       line.setAttribute('stroke-linecap', 'round');
       anime({
         targets: line,
