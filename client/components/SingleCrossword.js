@@ -181,6 +181,7 @@ export default function MyPage(props) {
     const newCorrect = `${number} ${direction}`;
     if (!corrects.includes(newCorrect)) {
       let score = Number(window.localStorage.getItem('score'));
+      const newPoints = 100 + 10 * answer.length;
       score += 100 + 10 * answer.length;
       window.localStorage.setItem('score', String(score));
       socket.emit('correctWord', {
@@ -191,6 +192,7 @@ export default function MyPage(props) {
         id: socket.id,
         color: playerColor[0],
         score: score,
+        newPoints,
       });
       corrects.push(newCorrect);
     }

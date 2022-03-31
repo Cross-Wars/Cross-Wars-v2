@@ -22,6 +22,7 @@ export default function Scores() {
       const points = document.getElementsByClassName(
         `got-points ${payload.id}`
       );
+      points[0].innerText = `+${payload.newPoints}`;
       anime({
         targets: points,
         keyframes: [
