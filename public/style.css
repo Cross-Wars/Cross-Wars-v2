@@ -23,6 +23,18 @@ label {
   z-index: 1;
 }
 
+#timer {
+  position: fixed;
+  right: 0%;
+  top: 20%;
+  background-color: #6e2b6e;
+  border-radius: 15px 0px 0px 15px;
+  color: white;
+  width: 100px;
+  padding-left: 10px;
+  margin: 0px;
+}
+
 .nav-bar svg {
   height: 100px;
   width: 100px;
@@ -99,6 +111,7 @@ nav img {
 }
 
 .game-board {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;

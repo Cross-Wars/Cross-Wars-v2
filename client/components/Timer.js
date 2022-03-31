@@ -40,7 +40,7 @@ export default function Timer() {
   }, [])
 
   return (
-    <div>
+    <div id="timer">
       <h2>
         {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")}
       </h2>
