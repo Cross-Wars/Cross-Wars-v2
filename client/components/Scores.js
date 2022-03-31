@@ -14,7 +14,7 @@ export default function Scores() {
     loadUsers();
 
     socket.on('render-users', (playerInfo) => {
-      setPlayers(playerInfo);
+      setPlayers(playerInfo.sort((a, b) => b.score - a.score));
     });
 
     socket.on('newWord', (payload) => {
@@ -22,6 +22,7 @@ export default function Scores() {
       const points = document.getElementsByClassName(
         `got-points ${payload.id}`
       );
+      points[0].innerText = `+${payload.newPoints}`;
       anime({
         targets: points,
         keyframes: [
