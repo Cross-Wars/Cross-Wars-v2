@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { authenticate } from "../store"
@@ -26,7 +27,9 @@ const AuthForm = (props) => {
             <input name="password" type="password" />
           </div>
           <div>
-            <button type="submit">{displayName}</button>
+            <Button variant="contained" color="secondary" type="submit">
+              {displayName}
+            </Button>
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
