@@ -14,7 +14,7 @@ export default function Scores() {
     loadUsers();
 
     socket.on('render-users', (playerInfo) => {
-      setPlayers(playerInfo);
+      setPlayers(playerInfo.sort((a, b) => b.score - a.score));
     });
 
     socket.on('newWord', (payload) => {
