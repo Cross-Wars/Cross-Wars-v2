@@ -23,13 +23,17 @@ export default function (props) {
                   x={(i % 15) * 11 + 1}
                   y={Math.floor(i / 15) * 11 + 1}
                 ></rect>
-                <text
-                  x={(i % 15) * 11 + 3}
-                  y={Math.floor(i / 15) * 11 + 10}
-                  fontSize="9"
-                >
-                  {cell}
-                </text>
+                {props.showAnswers ? (
+                  <text
+                    x={(i % 15) * 11 + 3}
+                    y={Math.floor(i / 15) * 11 + 10}
+                    fontSize="9"
+                  >
+                    {cell}
+                  </text>
+                ) : (
+                  ''
+                )}
               </g>
             );
           }

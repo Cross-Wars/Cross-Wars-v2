@@ -62,7 +62,7 @@ export default function Results() {
           </div>
         );
       })}
-      <GameOver data={puzzle} />
+      <GameOver data={puzzle} showAnswers={true}/>
     </div>
   );
 }
