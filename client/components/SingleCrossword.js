@@ -34,10 +34,9 @@ export default function MyPage(props) {
   const playerColor = window.localStorage.getItem('color').split(' ');
 
   useEffect(() => {
-    dispatch(fetchAllCrossword());
-
     function sound(src) {
       this.sound = document.createElement('audio');
+      this.sound.volume = 0.4;
       this.sound.src = src;
       this.sound.setAttribute('preload', 'auto');
       this.sound.setAttribute('controls', 'none');
@@ -107,6 +106,7 @@ export default function MyPage(props) {
       line.setAttribute('opacity', '0.25');
       line.setAttribute('stroke', payload.color);
       line.setAttribute('stroke-width', '3');
+      line.setAttribute('stroke-linecap', 'round');
       anime({
         targets: line,
         strokeDashoffset: [anime.setDashoffset, 0],
