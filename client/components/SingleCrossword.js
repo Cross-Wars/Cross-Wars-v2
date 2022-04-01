@@ -19,7 +19,6 @@ export default function MyPage(props) {
   const dispatch = useDispatch();
   const crosswords = useSelector((state) => state.dataReducer.allCrossword);
   let gameId = useSelector((state) => state.dataReducer.game.id);
-  console.log(gameId);
 
   const gameIdLocalStorage = window.localStorage.setItem(
     'gameId',
@@ -55,7 +54,6 @@ export default function MyPage(props) {
     const ding = new sound('/ding.mp3');
 
     socket.on('broadcast-game-id', (payload) => {
-      console.log('received: ', payload);
       gameId = payload;
       window.localStorage.setItem('gameId', String(payload));
     });

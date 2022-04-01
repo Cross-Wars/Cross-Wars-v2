@@ -26,7 +26,6 @@ const init = async () => {
       console.log(`Connection from client ${socket.id}`);
 
       socket.on('send-game-id', (payload) => {
-        console.log('received: ', payload);
         io.to(payload.room).emit('broadcast-game-id', payload.gameId);
       });
 

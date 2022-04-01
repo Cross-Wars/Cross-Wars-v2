@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import socket from './socket';
 
 export default function Timer() {
-  const startTime = 5;
+  const startTime = 600;
   const [time, setTime] = useState(startTime);
   const room = window.localStorage.getItem('roomId');
   let secondsPassed = 0;
