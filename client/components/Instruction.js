@@ -40,23 +40,34 @@ const Instructions = () => {
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <Card
           className={classes.root}
           style={{
-            position: "absolute",
-            marginTop: "200px",
-            marginLeft: "500px",
             border: " solid",
             borderColor: "black",
           }}
         >
           <CardActionArea>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                style={{
+                  textAlign: "center",
+                  padding: "10px",
+                  border: "1px solid #6e2b6e",
+                }}
+              >
                 How to play
               </Typography>
-              <Typography variant="body2" color="textSecondary" component="ul">
+              <Typography variant="body2" component="ul">
                 <li>Create a room</li>
                 <li>
                   After creating the room, copy and share the link to your
