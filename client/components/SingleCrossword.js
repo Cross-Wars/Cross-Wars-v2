@@ -18,7 +18,7 @@ import { updateGameComplete } from '../store/crossword';
 export default function MyPage(props) {
   const dispatch = useDispatch();
   const crosswords = useSelector((state) => state.dataReducer.allCrossword);
-  const gameId = useSelector((state) => state.dataReducer.game.id);
+  let gameId = useSelector((state) => state.dataReducer.game.id);
   console.log(gameId);
 
   const gameIdLocalStorage = window.localStorage.setItem(
@@ -27,6 +27,9 @@ export default function MyPage(props) {
   );
   const room = window.localStorage.getItem('roomId');
 
+  if (gameId) {
+    socket.emit('send-game-id', { gameId, room });
+  }
   const crossword = useRef(null);
 
   const selectedPuzzle = JSON.parse(window.localStorage.getItem('puzzle'));
@@ -50,6 +53,12 @@ export default function MyPage(props) {
       };
     }
     const ding = new sound('/ding.mp3');
+
+    socket.on('broadcast-game-id', (payload) => {
+      console.log('received: ', payload);
+      gameId = payload;
+      window.localStorage.setItem('gameId', String(payload));
+    });
 
     window.localStorage.setItem('correctClues', '[]');
     window.localStorage.setItem('correctCells', '[]');
