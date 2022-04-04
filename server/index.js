@@ -25,6 +25,10 @@ const init = async () => {
     io.on('connection', (socket) => {
       console.log(`Connection from client ${socket.id}`);
 
+      socket.on('send-game-id', (payload) => {
+        io.to(payload.room).emit('broadcast-game-id', payload.gameId);
+      });
+
       socket.on('set-info', (userObj) => {
         socket.nickname = userObj.nickname; // this is setting these properties on the client side socket, not the server side
         socket.color = userObj.color;
