@@ -4,16 +4,6 @@ const {
   models: { Crossword },
 } = require('../db');
 
-//GET /api/crosswords
-crosswordRouter.get('/', async (req, res, next) => {
-  try {
-    const crosswords = await Crossword.findAll();
-    res.send(crosswords);
-  } catch (err) {
-    next(err);
-  }
-});
-
 //GET /api/crosswords/random
 crosswordRouter.get('/random', async (req, res, next) => {
   try {
