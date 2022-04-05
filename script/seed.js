@@ -9,20 +9,31 @@ const crosswordList = require('../public/crosswords/exports');
 const makeCrossword = (array) => {
   return array.map((crossword) => {
     if (crossword.gridnums.length === 225) {
-      return {
-        name: crossword.title,
-        date: new Date(crossword.date),
-        difficulty: `${
-          crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
-            ? 'easy'
-            : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
-            ? 'medium'
-            : 'hard'
-        }`,
-        author: crossword.author,
-        data: JSON.stringify(dataFormatter(crossword)),
-        grid: crossword.grid,
-      };
+      //Check for Rebuses
+      let rebus = false;
+      for (let i = 0; i < crossword.grid.length; i++) {
+        if (crossword.grid[i].length > 1) {
+          rebus = true;
+          break;
+        }
+      }
+      //Create crossword object
+      if (!rebus) {
+        return {
+          name: crossword.title,
+          date: new Date(crossword.date),
+          difficulty: `${
+            crossword.dow === 'Monday' || crossword.dow === 'Tuesday'
+              ? 'easy'
+              : crossword.dow === 'Wednesday' || crossword.dow === 'Thursday'
+              ? 'medium'
+              : 'hard'
+          }`,
+          author: crossword.author,
+          data: JSON.stringify(dataFormatter(crossword)),
+          grid: crossword.grid,
+        };
+      }
     }
   });
 };

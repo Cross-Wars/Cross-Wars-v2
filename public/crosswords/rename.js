@@ -1,5 +1,6 @@
-//This script renames each crossword file
-//for whichever directory of crosswords it's ran in
+/* This script will scan through a given year of nyt crossword files,
+dynamically rename them all by their date, and pull them all into one
+directory for export. Works specifically for the doshea/nyt_crosswords repo */
 const fs = require('fs');
 const files = fs.readdirSync(__dirname);
 
@@ -21,16 +22,6 @@ for (const file of files) {
           if (err) console.log('Error: Cannot edit file name');
           else console.log('File renamed!');
         }
-      );
-      console.log(__dirname + '/' + file + '/' + json);
-      console.log(
-        __dirname +
-          '/' +
-          file +
-          '-' +
-          json.replace('.json', '') +
-          '-' +
-          `${__dirname.slice(-2)}.js`
       );
     }
   }
