@@ -8,6 +8,8 @@ Welcome to CrossWars! CrossWars is a real-time online multiplayer game, where yo
 
 Points are awarded per correct word completed, but stay sharp -  each word you complete brings your opponents closer to completing the crossword too. With the timer counting down, who can secure the most points and take the crown of the ultimate cross warrior?
 
+![Cross Wars Demo](cross-wars-demo.gif)
+
 ## Tech Stack
 
 CrossWars was written in JavaScript and built with Node.js, Socket.io, Express, Sequelize, PostgreSQL, React, and Redux. Additionally, an external crossword library written in TypeScript was used and modified to support multiplayer via websockets. 
