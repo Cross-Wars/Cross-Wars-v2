@@ -7,7 +7,8 @@
 Welcome to CrossWars! CrossWars is a real-time online multiplayer game, where you can compete against up to three of your friends (or foes) to solve a crossword puzzle.
 
 Points are awarded per correct word completed, but stay sharp -  each word you complete brings your opponents closer to completing the crossword too. With the timer counting down, who can secure the most points and take the crown of the ultimate cross warrior?
-![Farmers Market Finder Demo](cross-wars-demo.gif)
+
+![Cross Wars Demo](cross-wars-demo.gif)
 
 ## Tech Stack
 
