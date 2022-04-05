@@ -1,4 +1,5 @@
-//
+/* This script bundles all the crosswords in the current folder 
+and exports them as one big array for database seeding */
 
 const fs = require('fs');
 const path = require('path');

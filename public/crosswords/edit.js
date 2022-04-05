@@ -1,5 +1,6 @@
-//This script drops a 'module.exports=' in front of each file
-//in whichever directory of crosswords it's ran in
+/* This script drops a module.exports at the start of every crossword
+in the file that the script is ran in, so they can be collected for
+seeding in our database */
 const fs = require('fs');
 const path = require('path');
 

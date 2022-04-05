@@ -1,3 +1,6 @@
+/* These functions take the original NYT crosswords and converts
+ them into a format that can be read by the react-crossword library */
+
 function make2DArray(grid) {
   const divisor = Math.sqrt(grid.length);
   let result = [];
