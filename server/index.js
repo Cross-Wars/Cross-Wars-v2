@@ -117,13 +117,18 @@ const init = async () => {
         io.to(payload.roomId).emit('show-results');
       });
 
-      socket.on('end-session', (roomId) => {
-        socket.to(roomId).emit('ending-session');
+      // socket.on('end-session', (roomId) => {
+      //   socket.to(roomId).emit('ending-session');
 
-        //make users 'leave' room
-        //clear any info from that session, including players, content, room, etc.
-      });
+      //   //make users 'leave' room
+      //   //clear any info from that session, including players, content, room, etc.
+      // });
+
+      socket.on('return-to-lobby', (roomId) => {
+        socket.to(roomId).emit('returning-to-lobby');})
     });
+
+
   } catch (ex) {
     console.log(ex);
   }
