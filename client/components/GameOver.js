@@ -2,10 +2,11 @@ import React from 'react';
 
 export default function (props) {
   const { grid } = props.data;
+  const { size } = props;
   return (
-    <div>
+    <div className="game-over">
       <svg
-        style={{ width: '50vw', height: '50vw' }}
+        style={{ width: size, height: size }}
         width="166"
         height="166"
         viewBox="0 0 166 166"
