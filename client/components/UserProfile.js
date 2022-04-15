@@ -23,19 +23,19 @@ const UserProfile = () => {
               key={game.id}
               style={{ border: ' solid', borderColor: 'black' }}
             >
-              <div>
-                <h1>GameNo: {game.users[0].userGame.gameId}</h1>
-                <h1>CrosswordName: {game.crossword.name}</h1>
-                <h1>Difficulty: {game.crossword.difficulty}</h1>
-                <h1>CrosswordAuthor: {game.crossword.author}</h1>
-                <h1>Score:{game.users[0].userGame.score}</h1>
-                {/*
-                <Crossword
-                  data={JSON.parse(game.crossword.data)}
-                  useStorage={false}
-                /> */}
+              <div className="user-game">
+                <div className="game-stats">
+                  <h1>Puzzle: {game.crossword.name}</h1>
+                  <h1>Author: {game.crossword.author}</h1>
+                  <h1>Difficulty: {game.crossword.difficulty}</h1>
+                  <h1>Score: {game.users[0].userGame.score}</h1>
+                </div>
+                <GameOver
+                  data={game.crossword}
+                  size={'30vw'}
+                  showAnswers={false}
+                />
               </div>
-              <GameOver data={game.crossword} showAnswers={false} />
             </Card>
           );
         })}

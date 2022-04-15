@@ -10,6 +10,17 @@ a {
   text-decoration: none;
 }
 
+.user-game {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2em;
+  align-items: center;
+}
+
+.user-game > * {
+  flex: 1;
+}
+
 .nav-bar {
   background-color: #6e2b6e;
   color: white;
