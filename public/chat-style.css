@@ -1,0 +1,99 @@
+/* CHAT STYLING */
+.Chat {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  height: 500px;
+  width: 283px;
+  margin: 0.5em;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: left;
+}
+
+.Chat .header {
+  font-weight: bold;
+  color: aliceblue;
+  border-radius: 6px;
+  background: #0039a3;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+}
+
+.Chat .MessageList {
+  box-sizing: border-box;
+  flex: 1;
+  position: relative;
+}
+
+.Chat .MessageForm {
+  border-top: 1px solid;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.Message {
+  line-height: 2em;
+}
+
+.Message .author {
+  font-weight: bold;
+  margin: 0 5px 0 0;
+}
+
+.Message.me .author {
+  color: #fa1e6b;
+}
+
+.Message.log {
+  color: #bbb;
+}
+
+.MessageForm {
+  display: flex;
+  position: relative;
+}
+
+.MessageForm .input-container {
+  flex: 1;
+  margin: 1px;
+  position: relative;
+}
+
+.MessageForm .button-container {
+  flex: 0 0 6em;
+  margin: 1px 1px 1px 0;
+}
+
+/* .MessageForm input,
+.MessageForm button {
+  border-radius: 3px;
+  border: 1px;
+  box-sizing: border-box;
+  font-size: inherit;
+  height: 100%;
+  outline: none;
+  width: 100%;
+  position: relative;
+} */
+
+.MessageForm input {
+  padding: 0 0 0 4px;
+}
+
+.MessageList {
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.chat-input {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.chat-msg.form-control {
+  width: 75%;
+}
