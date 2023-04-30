@@ -1,13 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import Navbar from "./components/Navbar";
-import Routes from "./Routes";
+import Navbar from './components/Navbar';
+import Routes from './Routes';
+import { TimerContextProvider } from '../context/TimerContext';
 
 const App = () => {
   return (
     <div>
       <Navbar />
-      <Routes />
+      <TimerContextProvider>
+        <Routes />
+      </TimerContextProvider>
     </div>
   );
 };

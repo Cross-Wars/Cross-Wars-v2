@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { TimerContext, TimerContextProvider } from '../../context/TimerContext';
 import socket from './socket';
 
 export default function Timer() {
-  const startTime = 600;
-  const [time, setTime] = useState(startTime);
-  const room = window.localStorage.getItem('roomId');
+  const [time, setTime] = useContext(TimerContext);
   let secondsPassed = 0;
+  const room = window.localStorage.getItem('roomId');
   useEffect(() => {
     function sound(src) {
       this.sound = document.createElement('audio');
@@ -25,13 +25,13 @@ export default function Timer() {
     const tick = new sound('/tick.mp3');
     const losecheck = setInterval(() => {
       secondsPassed++;
-      if (secondsPassed > startTime) {
+      if (secondsPassed >= time) {
         socket.emit('game-over', { roomId: room });
       }
-      if (startTime - secondsPassed < 5) {
+      if (time - secondsPassed <= 10) {
         tick.play();
       }
-      setTime(startTime - secondsPassed);
+      setTime(time - secondsPassed);
     }, 1000);
 
     return function cleanup() {
@@ -41,10 +41,12 @@ export default function Timer() {
   }, []);
 
   return (
-    <div id="timer">
-      <h2>
-        {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}
-      </h2>
-    </div>
+    <TimerContextProvider>
+      <div id="timer">
+        <h2>
+          {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}
+        </h2>
+      </div>
+    </TimerContextProvider>
   );
 }

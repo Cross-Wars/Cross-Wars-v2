@@ -32,6 +32,7 @@ export default function MyPage(props) {
   const crossword = useRef(null);
 
   const selectedPuzzle = JSON.parse(window.localStorage.getItem('puzzle'));
+  const time = window.localStorage.getItem('time');
   const puzzleData = JSON.parse(selectedPuzzle.data);
   const playerColor = window.localStorage.getItem('color').split(' ');
 
@@ -208,7 +209,7 @@ export default function MyPage(props) {
   };
   return (
     <div className="game-board">
-      <Timer />
+      <Timer startTime={time} />
       <Clues />
       <div>
         <h1>{selectedPuzzle.name}</h1>

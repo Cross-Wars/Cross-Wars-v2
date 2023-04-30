@@ -1,11 +1,11 @@
-const { db } = require("./db");
+const { db } = require('./db');
 const PORT = process.env.PORT || 8080;
-const app = require("./app");
-const seed = require("../script/seed");
+const app = require('./app');
+const seed = require('../script/seed');
 
 const init = async () => {
   try {
-    if (process.env.SEED === "true") {
+    if (process.env.SEED === 'true') {
       await seed();
     } else {
       await db.sync();
@@ -14,61 +14,61 @@ const init = async () => {
     const server = app.listen(PORT, () =>
       console.log(`Mixing it up on port ${PORT}`)
     );
-    const io = require("socket.io")(server, {
+    const io = require('socket.io')(server, {
       cors: {
-        origin: "*",
+        origin: '*',
       },
     });
 
     // let player = [];
 
-    io.on("connection", (socket) => {
+    io.on('connection', (socket) => {
       console.log(`Connection from client ${socket.id}`);
 
-      socket.on("send-game-id", (payload) => {
-        io.to(payload.room).emit("broadcast-game-id", payload.gameId);
+      socket.on('send-game-id', (payload) => {
+        io.to(payload.room).emit('broadcast-game-id', payload.gameId);
       });
 
-      socket.on("set-info", (userObj) => {
+      socket.on('set-info', (userObj) => {
         socket.nickname = userObj.nickname; // this is setting these properties on the client side socket, not the server side
         socket.color = userObj.color;
         socket.host = userObj.host;
         socket.score = 0;
       });
 
-      socket.on("correctWord", (payload) => {
-        io.to(payload.roomId).emit("newWord", payload);
+      socket.on('correctWord', (payload) => {
+        io.to(payload.roomId).emit('newWord', payload);
         socket.score = payload.score;
       });
 
-      socket.on("join-room", (roomId) => {
+      socket.on('join-room', (roomId) => {
         const users = socket.adapter.rooms.get(roomId); // get list of sockets in room
         const numUsers = users ? users.size : 0; // get number of users in room
         if (numUsers < 4) {
           socket.join(roomId); // join if theres room
           console.log(`successfully joined room `, roomId);
-          socket.to(roomId).emit("update-users");
+          socket.to(roomId).emit('update-users');
         } else {
-          io.to(socket.id).emit("room-full");
+          io.to(socket.id).emit('room-full');
           //socket.broadcast.emit('room-full'); // redirect to error page if room is full.
         }
       });
 
-      socket.on("disconnecting", () => {
+      socket.on('disconnecting', () => {
         const room = Array.from(socket.rooms);
-        socket.to(room[1]).emit("update-users");
+        socket.to(room[1]).emit('update-users');
       });
 
-      socket.on("get-host", async (room) => {
+      socket.on('get-host', async (room) => {
         if (socket.adapter.rooms.get(room)) {
           const users = Array.from(socket.adapter.rooms.get(room));
           const userHost = await io.fetchSockets(users[0]);
           const hostName = userHost[0].nickname;
-          socket.emit("set-host", hostName);
+          socket.emit('set-host', hostName);
         }
       });
 
-      socket.on("load-users", async (roomId) => {
+      socket.on('load-users', async (roomId) => {
         const users = await io.in(roomId).fetchSockets();
         let players = [];
         for (const socket of users) {
@@ -85,14 +85,14 @@ const init = async () => {
             id,
           });
         }
-        socket.emit("render-users", players);
+        socket.emit('render-users', players);
       });
 
-      socket.on("start-session", (roomId, puzzle) => {
-        socket.to(roomId).emit("begin-session", puzzle);
+      socket.on('start-session', (roomId, puzzle) => {
+        socket.to(roomId).emit('begin-session', puzzle);
       });
 
-      socket.on("leave-room", async (roomId) => {
+      socket.on('leave-room', async (roomId) => {
         socket.leave(roomId);
         const users = await io.in(roomId).fetchSockets();
         let players = [];
@@ -110,19 +110,19 @@ const init = async () => {
             id,
           });
         }
-        io.to(roomId).emit("render-users", players);
+        io.to(roomId).emit('render-users', players);
       });
 
-      socket.on("game-over", (payload) => {
-        io.to(payload.roomId).emit("show-results");
+      socket.on('game-over', (payload) => {
+        io.to(payload.roomId).emit('show-results');
       });
 
-      socket.on("return-to-lobby", (roomId) => {
-        socket.to(roomId).emit("returning-to-lobby");
+      socket.on('return-to-lobby', (roomId) => {
+        socket.to(roomId).emit('returning-to-lobby');
       });
 
-      socket.on("send-message", (message, sendingUser, room) => {
-        socket.broadcast.to(room).emit("receive-message", message, sendingUser);
+      socket.on('send-message', (message, sendingUser, room) => {
+        socket.broadcast.to(room).emit('receive-message', message, sendingUser);
       });
     });
   } catch (ex) {
