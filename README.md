@@ -2,7 +2,7 @@
 
 ## Online multiplayer competitive crossword action!
 
-[Play Now!](https://crosswar.herokuapp.com/)
+[Play Now!](https://cross-wars.herokuapp.com/)
 
 Welcome to CrossWars! CrossWars is a real-time online multiplayer game, where you can compete against up to three of your friends (or foes) to solve a crossword puzzle.
 
